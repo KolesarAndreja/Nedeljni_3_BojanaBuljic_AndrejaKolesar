@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbRecipeKeeperModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblIngredient">
+          <Key>
+            <PropertyRef Name="ingridientId" />
+          </Key>
+          <Property Name="ingridientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="20" />
+          <Property Name="recipeId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblRecipe">
+          <Key>
+            <PropertyRef Name="recipeId" />
+          </Key>
+          <Property Name="recipeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="numberOfPersons" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="creationDate" Type="date" Nullable="false" />
+          <Property Name="authorId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fullname" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwRecipe">
+          <Key>
+            <PropertyRef Name="recipeId" />
+            <PropertyRef Name="title" />
+            <PropertyRef Name="type" />
+            <PropertyRef Name="numberOfPersons" />
+            <PropertyRef Name="description" />
+            <PropertyRef Name="creationDate" />
+            <PropertyRef Name="fullname" />
+            <PropertyRef Name="role" />
+            <PropertyRef Name="password" />
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="recipeId" Type="int" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="numberOfPersons" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="creationDate" Type="date" Nullable="false" />
+          <Property Name="authorId" Type="int" />
+          <Property Name="fullname" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblIngred__recip__72C60C4A">
+          <End Role="tblRecipe" Type="Self.tblRecipe" Multiplicity="0..1" />
+          <End Role="tblIngredient" Type="Self.tblIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRecipe">
+              <PropertyRef Name="recipeId" />
+            </Principal>
+            <Dependent Role="tblIngredient">
+              <PropertyRef Name="recipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblRecipe__autho__6EF57B66">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblRecipe" Type="Self.tblRecipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tblRecipe">
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbRecipeKeeperModelStoreContainer">
+          <EntitySet Name="tblIngredient" EntityType="Self.tblIngredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRecipe" EntityType="Self.tblRecipe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vwRecipe" EntityType="Self.vwRecipe" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwRecipe].[recipeId] AS [recipeId], 
+    [vwRecipe].[title] AS [title], 
+    [vwRecipe].[type] AS [type], 
+    [vwRecipe].[numberOfPersons] AS [numberOfPersons], 
+    [vwRecipe].[description] AS [description], 
+    [vwRecipe].[creationDate] AS [creationDate], 
+    [vwRecipe].[authorId] AS [authorId], 
+    [vwRecipe].[fullname] AS [fullname], 
+    [vwRecipe].[role] AS [role], 
+    [vwRecipe].[password] AS [password], 
+    [vwRecipe].[username] AS [username]
+    FROM [dbo].[vwRecipe] AS [vwRecipe]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__tblIngred__recip__72C60C4A" Association="Self.FK__tblIngred__recip__72C60C4A">
+            <End Role="tblRecipe" EntitySet="tblRecipe" />
+            <End Role="tblIngredient" EntitySet="tblIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblRecipe__autho__6EF57B66" Association="Self.FK__tblRecipe__autho__6EF57B66">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblRecipe" EntitySet="tblRecipe" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbRecipeKeeperModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblIngredient">
+          <Key>
+            <PropertyRef Name="ingridientId" />
+          </Key>
+          <Property Name="ingridientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="recipeId" Type="Int32" />
+          <NavigationProperty Name="tblRecipe" Relationship="Self.FK__tblIngred__recip__72C60C4A" FromRole="tblIngredient" ToRole="tblRecipe" />
+        </EntityType>
+        <EntityType Name="tblRecipe">
+          <Key>
+            <PropertyRef Name="recipeId" />
+          </Key>
+          <Property Name="recipeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numberOfPersons" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="creationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="authorId" Type="Int32" />
+          <NavigationProperty Name="tblIngredients" Relationship="Self.FK__tblIngred__recip__72C60C4A" FromRole="tblRecipe" ToRole="tblIngredient" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblRecipe__autho__6EF57B66" FromRole="tblRecipe" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fullname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblRecipes" Relationship="Self.FK__tblRecipe__autho__6EF57B66" FromRole="tblUser" ToRole="tblRecipe" />
+        </EntityType>
+        <EntityType Name="vwRecipe">
+          <Key>
+            <PropertyRef Name="recipeId" />
+            <PropertyRef Name="title" />
+            <PropertyRef Name="type" />
+            <PropertyRef Name="numberOfPersons" />
+            <PropertyRef Name="description" />
+            <PropertyRef Name="creationDate" />
+            <PropertyRef Name="fullname" />
+            <PropertyRef Name="role" />
+            <PropertyRef Name="password" />
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="recipeId" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numberOfPersons" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="creationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="authorId" Type="Int32" />
+          <Property Name="fullname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblIngred__recip__72C60C4A">
+          <End Role="tblRecipe" Type="Self.tblRecipe" Multiplicity="0..1" />
+          <End Role="tblIngredient" Type="Self.tblIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRecipe">
+              <PropertyRef Name="recipeId" />
+            </Principal>
+            <Dependent Role="tblIngredient">
+              <PropertyRef Name="recipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblRecipe__autho__6EF57B66">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblRecipe" Type="Self.tblRecipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tblRecipe">
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RecipeKeeperEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblIngredients" EntityType="Self.tblIngredient" />
+          <EntitySet Name="tblRecipes" EntityType="Self.tblRecipe" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="vwRecipes" EntityType="Self.vwRecipe" />
+          <AssociationSet Name="FK__tblIngred__recip__72C60C4A" Association="Self.FK__tblIngred__recip__72C60C4A">
+            <End Role="tblRecipe" EntitySet="tblRecipes" />
+            <End Role="tblIngredient" EntitySet="tblIngredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblRecipe__autho__6EF57B66" Association="Self.FK__tblRecipe__autho__6EF57B66">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblRecipe" EntitySet="tblRecipes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbRecipeKeeperModelStoreContainer" CdmEntityContainer="RecipeKeeperEntities">
+          <EntitySetMapping Name="tblIngredients">
+            <EntityTypeMapping TypeName="dbRecipeKeeperModel.tblIngredient">
+              <MappingFragment StoreEntitySet="tblIngredient">
+                <ScalarProperty Name="ingridientId" ColumnName="ingridientId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="recipeId" ColumnName="recipeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRecipes">
+            <EntityTypeMapping TypeName="dbRecipeKeeperModel.tblRecipe">
+              <MappingFragment StoreEntitySet="tblRecipe">
+                <ScalarProperty Name="recipeId" ColumnName="recipeId" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="numberOfPersons" ColumnName="numberOfPersons" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="creationDate" ColumnName="creationDate" />
+                <ScalarProperty Name="authorId" ColumnName="authorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="dbRecipeKeeperModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role" ColumnName="role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwRecipes">
+            <EntityTypeMapping TypeName="dbRecipeKeeperModel.vwRecipe">
+              <MappingFragment StoreEntitySet="vwRecipe">
+                <ScalarProperty Name="recipeId" ColumnName="recipeId" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="numberOfPersons" ColumnName="numberOfPersons" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="creationDate" ColumnName="creationDate" />
+                <ScalarProperty Name="authorId" ColumnName="authorId" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
