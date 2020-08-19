@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Nedeljni_3.Model;
+using Nedeljni_3.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,10 @@ namespace Nedeljni_3.View
     /// </summary>
     public partial class User : Window
     {
-        public User()
+        public User(tblUser user)
         {
             InitializeComponent();
+            this.DataContext = new UserViewModel(this, user);
         }
     }
 }
