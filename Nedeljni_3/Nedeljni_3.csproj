@@ -91,6 +91,7 @@
     <Compile Include="Model\vwRecipe.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Service\Service.cs" />
     <Compile Include="ViewModel\AddRecipeViewModel.cs" />
     <Compile Include="ViewModel\AdminViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -181,7 +182,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Service\" />
     <Folder Include="Validation\" />
   </ItemGroup>
   <ItemGroup>

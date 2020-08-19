@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nedeljni_3.ViewModel
 {
-    class LoginViewModel
+    class LoginViewModel:ViewModelBase
     {
     }
 }

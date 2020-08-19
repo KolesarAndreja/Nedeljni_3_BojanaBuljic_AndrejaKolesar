@@ -6,20 +6,20 @@
         xmlns:local="clr-namespace:Nedeljni_3.View"
         mc:Ignorable="d"
         Title="User"
-        Height="450"
+        Height="600"
         Width="800">
     <Grid>
         <Button Content="Log out"
                 Command="{Binding logOut, UpdateSourceTrigger=PropertyChanged}"
                 HorizontalAlignment="Left"
                 Height="25"
-                Margin="620,20,0,0"
+                Margin="615,20,0,0"
                 VerticalAlignment="Top"
                 Width="125" />
         <Button Content="Add Recipe"
                 Command="{Binding addRecipe, UpdateSourceTrigger=PropertyChanged}"
                 HorizontalAlignment="Left"
-                Margin="40,15,0,0"
+                Margin="30,20,0,0"
                 VerticalAlignment="Top"
                 Width="125"
                 Height="25" />
@@ -33,7 +33,7 @@
                   BorderBrush="Black"
                   Foreground="Black"
                   FontWeight="Bold"
-                  Margin="205,80,42,116">
+                  Margin="205,80,42,309">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title"
                                     Binding="{Binding title}" />
@@ -59,7 +59,7 @@
                         <Button Name="btnDelete"
                                 Content="Delete"
                                 Visibility="{Binding visibilityAdmin, UpdateSourceTrigger=PropertyChanged}"
-                                Command="{Binding Path=DataContext.deleteRecipe, RelativeSource= {RelativeSource FindAncestor,
+                                Command="{Binding Path=DataContext.delete, RelativeSource= {RelativeSource FindAncestor,
                                        AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged}"
                                 Margin="4"
                                 FontWeight="Bold" />
@@ -69,8 +69,8 @@
             <DataGridTemplateColumn>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <Button Name="btnShoppingList"
-                                Content="Add to Shopping List"
+                        <Button Name="btnRead"
+                                Content="Read Recipe"
                                 Visibility="{Binding visibilityUser, UpdateSourceTrigger=PropertyChanged}"
                                 Command="{Binding Path=DataContext.deletePatient, RelativeSource= {RelativeSource FindAncestor,
                                        AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged}"
@@ -79,44 +79,56 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-        </DataGrid>
+            <DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Name="btnCalculate"
+                                Content="Calculate quantity"
+                                Command="{Binding Path=DataContext.deletePatient, RelativeSource= {RelativeSource FindAncestor,
+                                       AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="4"
+                                FontWeight="Bold" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid> 
         <Button Content="Title (ASC)"
-                Command="{Binding addRecipe, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding titleAsc, UpdateSourceTrigger=PropertyChanged}"
                 HorizontalAlignment="Left"
                 Margin="15,101,0,0"
                 VerticalAlignment="Top"
                 Width="165"
                 Height="25" />
         <Button Content="Title (DESC)"
-                Command="{Binding addRecipe, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding titleDesc, UpdateSourceTrigger=PropertyChanged}"
                 HorizontalAlignment="Left"
                 Margin="15,131,0,0"
                 VerticalAlignment="Top"
                 Width="165"
                 Height="25" />
         <Button Content="Date (ASC)"
-                Command="{Binding addRecipe, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding dateAsc, UpdateSourceTrigger=PropertyChanged}"
                 HorizontalAlignment="Left"
                 Margin="15,161,0,0"
                 VerticalAlignment="Top"
                 Width="165"
                 Height="25" />
         <Button Content="Date (DESC)"
-                Command="{Binding addRecipe, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding dateDesc, UpdateSourceTrigger=PropertyChanged}"
                 HorizontalAlignment="Left"
                 Margin="15,191,0,0"
                 VerticalAlignment="Top"
                 Width="165"
                 Height="25" />
         <Button Content="Number of ingredients (ASC)"
-                Command="{Binding addRecipe, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding numberAsc, UpdateSourceTrigger=PropertyChanged}"
                 HorizontalAlignment="Left"
                 Margin="15,221,0,0"
                 VerticalAlignment="Top"
                 Width="165"
                 Height="25" />
         <Button Content="Number of ingredients (DESC)"
-                Command="{Binding addRecipe, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding numberDesc, UpdateSourceTrigger=PropertyChanged}"
                 HorizontalAlignment="Left"
                 Margin="15,251,0,0"
                 VerticalAlignment="Top"
@@ -125,6 +137,10 @@
         <Label Content="SORT BY:"
                HorizontalAlignment="Left"
                Margin="13,70,0,0"
+               VerticalAlignment="Top" />
+        <Label Content="SEARCH BY:"
+               HorizontalAlignment="Left"
+               Margin="20,294,0,0"
                VerticalAlignment="Top" />
     </Grid>
 </Window>

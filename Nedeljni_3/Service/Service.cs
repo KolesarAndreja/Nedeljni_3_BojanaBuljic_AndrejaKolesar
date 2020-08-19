@@ -35,7 +35,7 @@ namespace Nedeljni_3.Service
         public List<tblRecipe> GetRecipesByTitle(List<tblRecipe> recipes, string title)
         {
             List<tblRecipe> result = new List<tblRecipe>();
-            for(int i = 0; i<recipes.Count; i++)
+            for (int i = 0; i < recipes.Count; i++)
             {
                 if (recipes[i].title.Contains(title))
                 {
@@ -69,7 +69,7 @@ namespace Nedeljni_3.Service
                 //the number of ingredients that match
                 int num = 0;
 
-                for(int j = 0; j<ingredients.Count; j++)
+                for (int j = 0; j < ingredients.Count; j++)
                 {
                     if (IsRecipeIngredient(id, ingredients[j]))
                     {
@@ -122,13 +122,12 @@ namespace Nedeljni_3.Service
         }
         #endregion
 
-
         #region sort lists
         //title
         public List<tblRecipe> SortByTitleAsc(List<tblRecipe> recipes)
         {
-                List<tblRecipe> sortedList = recipes.OrderBy(o => o.title).ToList();
-                return sortedList;
+            List<tblRecipe> sortedList = recipes.OrderBy(o => o.title).ToList();
+            return sortedList;
         }
 
         public List<tblRecipe> SortByTitleDesc(List<tblRecipe> recipes)
@@ -155,12 +154,12 @@ namespace Nedeljni_3.Service
         {
             List<tblRecipe> list = new List<tblRecipe>();
             Dictionary<tblRecipe, int> dict = new Dictionary<tblRecipe, int>();
-            for(int i = 0; i<recipes.Count; i++)
+            for (int i = 0; i < recipes.Count; i++)
             {
                 dict.Add(recipes[i], AllIngredientForRecipe(recipes[i].recipeId).Count);
             }
-            var orderedDict =  dict.OrderBy(x => x.Value);
-            foreach(var v in orderedDict)
+            var orderedDict = dict.OrderBy(x => x.Value);
+            foreach (var v in orderedDict)
             {
                 list.Add(v.Key);
             }
@@ -181,6 +180,118 @@ namespace Nedeljni_3.Service
                 list.Add(v.Key);
             }
             return list;
+        }
+        #endregion
+
+
+        #region delete recipe
+        public void DeleteRecipe(tblRecipe recipe)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    //first, we must delete ingredients with this recipeId
+                    List<tblIngredient> ing = AllIngredientForRecipe(recipe.recipeId);
+                    for (int i = 0; i < ing.Count; i++)
+                    {
+                        tblIngredient ingToDelete = (from u in context.tblIngredients where u.ingridientId == ing[i].ingridientId select u).First();
+                        context.tblIngredients.Remove(ingToDelete);
+                        context.SaveChanges();
+                    }
+                    //now we can remove our recipe
+                    tblRecipe toDelete = (from u in context.tblRecipes where u.recipeId == recipe.recipeId select u).First();
+                    context.tblRecipes.Remove(toDelete);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+        #endregion
+
+        #region add
+        public static tblRecipe AddRecipe(tblRecipe recipe)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    //add 
+                    if (recipe.recipeId == 0)
+                    {
+                        
+                        tblRecipe newRecipe = new tblRecipe();
+                        newRecipe.authorId = recipe.authorId;
+                        newRecipe.creationDate = DateTime.Now;
+                        newRecipe.description = recipe.description;
+                        newRecipe.numberOfPersons = recipe.numberOfPersons;
+                        newRecipe.title = recipe.title;
+                        newRecipe.type = recipe.type;
+                        context.tblRecipes.Add(newRecipe);
+                        context.SaveChanges();
+                        recipe.recipeId = newRecipe.recipeId;
+                        return recipe;
+                    }
+                    //edit
+                    else
+                    {
+                        tblRecipe recipeToEdit = (from x in context.tblRecipes where x.recipeId == recipe.recipeId select x).FirstOrDefault();
+                        recipeToEdit.authorId = recipe.authorId;
+                        recipeToEdit.creationDate = DateTime.Now;
+                        recipeToEdit.description = recipe.description;
+                        recipeToEdit.numberOfPersons = recipe.numberOfPersons;
+                        recipeToEdit.title = recipe.title;
+                        recipeToEdit.type = recipe.type;
+                        context.SaveChanges();
+                        return recipe;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex.Message.ToString());
+                return null;
+            }
+        }
+
+
+        public static tblIngredient AddIngredient(tblIngredient ingredient)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    if ( ingredient.ingridientId == 0)
+                    {
+                        //add 
+                        tblIngredient newIng = new tblIngredient();
+                        newIng.name = ingredient.name;
+                        newIng.quantity = ingredient.quantity;
+                        newIng.status = "unresolved";
+                        context.SaveChanges();
+                        ingredient.ingridientId = newIng.ingridientId;
+                        return ingredient;
+                    }
+                    else
+                    {
+                        tblIngredient ingToEdit = (from x in context.tblIngredients where x.ingridientId == ingredient.ingridientId select x).FirstOrDefault();
+
+                        ingToEdit.name = ingredient.name;
+                        ingToEdit.quantity = ingredient.quantity;
+                        ingToEdit.status = ingredient.status;
+                        context.SaveChanges();
+                        return ingredient;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex.Message.ToString());
+                return null;
+            }
         }
         #endregion
     }
