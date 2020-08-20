@@ -4,13 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4913d6dbbca24e738daa7152f1995c88" Name="Diagram1">
+      <Diagram DiagramId="9b0dd826ccf44ef1b7e8e80cd29420dc" Name="Diagram1">
         <EntityTypeShape EntityType="dbRecipeKeeperModel.tblIngredient" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="dbRecipeKeeperModel.tblRecipe" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbRecipeKeeperModel.tblUser" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbRecipeKeeperModel.tblShoppingList" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbRecipeKeeperModel.tblUser" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="dbRecipeKeeperModel.vwRecipe" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblIngred__recip__72C60C4A" ManuallyRouted="false" />
-        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblRecipe__autho__6EF57B66" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dbRecipeKeeperModel.vwShoppingList" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblIngred__recip__4A8310C6" ManuallyRouted="false" />
+        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblShoppi__ingri__4E53A1AA" ManuallyRouted="false" />
+        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblRecipe__autho__47A6A41B" ManuallyRouted="false" />
+        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblShoppi__userI__4D5F7D71" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

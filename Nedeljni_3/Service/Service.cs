@@ -270,7 +270,6 @@ namespace Nedeljni_3.Service
                         tblIngredient newIng = new tblIngredient();
                         newIng.name = ingredient.name;
                         newIng.quantity = ingredient.quantity;
-                        newIng.status = "unresolved";
                         context.SaveChanges();
                         ingredient.ingridientId = newIng.ingridientId;
                         return ingredient;
@@ -281,7 +280,6 @@ namespace Nedeljni_3.Service
 
                         ingToEdit.name = ingredient.name;
                         ingToEdit.quantity = ingredient.quantity;
-                        ingToEdit.status = ingredient.status;
                         context.SaveChanges();
                         return ingredient;
                     }

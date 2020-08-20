@@ -18,6 +18,7 @@ namespace Nedeljni_3.Model
         public tblUser()
         {
             this.tblRecipes = new HashSet<tblRecipe>();
+            this.tblShoppingLists = new HashSet<tblShoppingList>();
         }
     
         public int userId { get; set; }
@@ -28,5 +29,7 @@ namespace Nedeljni_3.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblRecipe> tblRecipes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblShoppingList> tblShoppingLists { get; set; }
     }
 }

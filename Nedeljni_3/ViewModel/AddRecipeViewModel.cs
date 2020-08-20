@@ -185,7 +185,6 @@ namespace Nedeljni_3.ViewModel
                                 if (myIngredients[i].name != "" && myIngredients[i].quantity > 0)
                                 {
                                     myIngredients[i].recipeId = id;
-                                    myIngredients[i].status = "unresolved";
                                     service.AddIngredient(myIngredients[i]);
                                 }
                             }
