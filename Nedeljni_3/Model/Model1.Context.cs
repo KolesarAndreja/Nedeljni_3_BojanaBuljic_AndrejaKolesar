@@ -27,9 +27,9 @@ namespace Nedeljni_3.Model
     
         public virtual DbSet<tblIngredient> tblIngredients { get; set; }
         public virtual DbSet<tblRecipe> tblRecipes { get; set; }
+        public virtual DbSet<tblShoppingList> tblShoppingLists { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<vwRecipe> vwRecipes { get; set; }
-        public virtual DbSet<tblShoppingList> tblShoppingLists { get; set; }
         public virtual DbSet<vwShoppingList> vwShoppingLists { get; set; }
     }
 }

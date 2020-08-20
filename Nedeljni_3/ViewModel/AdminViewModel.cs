@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nedeljni_3.ViewModel
 {
-    class AdminViewModel
+    class AdminViewModel:ViewModelBase
     {
     }
 }

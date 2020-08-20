@@ -5,8 +5,114 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nedeljni_3.View"
         mc:Ignorable="d"
-        Title="AddRecipe" Height="450" Width="800">
+        Title="AddRecipe"
+        Height="750"
+        Width="450">
     <Grid>
-        
+        <Button Content="Close"
+                Command="{Binding logOut, UpdateSourceTrigger=PropertyChanged}"
+                HorizontalAlignment="Left"
+                Height="25"
+                Margin="230,10,0,0"
+                VerticalAlignment="Top"
+                Width="125" />
+        <Label Content="Titile:"
+               HorizontalAlignment="Left"
+               Height="25"
+               Margin="30,80,0,0"
+               VerticalAlignment="Top"
+               Width="90" />
+        <TextBox x:Name="txtTitle"
+                 Text="{Binding recipe.title, UpdateSourceTrigger=PropertyChanged}"
+                 HorizontalAlignment="Left"
+                 Height="23"
+                 Margin="160,82,0,0"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Width="195" />
+        <Label Content="Description:"
+               HorizontalAlignment="Left"
+               Height="25"
+               Margin="30,120,0,0"
+               VerticalAlignment="Top"
+               Width="90" />
+        <TextBox x:Name="txtDescription"
+                 Text="{Binding recipe.description, UpdateSourceTrigger=PropertyChanged}"
+                 HorizontalAlignment="Left"
+                 Height="110"
+                 Margin="160,120,0,0"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Width="195"></TextBox>
+        <Label Content="Number of persons:"
+               HorizontalAlignment="Left"
+               Height="25"
+               Margin="35,285,0,0"
+               VerticalAlignment="Top"
+               Width="120"
+               RenderTransformOrigin="1.944,-0.8"></Label>
+        <Label Content="Type:"
+               HorizontalAlignment="Left"
+               Height="25"
+               Margin="35,245,0,0"
+               VerticalAlignment="Top"
+               Width="90"
+               RenderTransformOrigin="0.5,0.5"></Label>
+        <TextBox x:Name="txtNumberOfPersons"
+                 Text="{Binding recipe.numberOfPersons, UpdateSourceTrigger=PropertyChanged}"
+                 HorizontalAlignment="Left"
+                 Height="23"
+                 Margin="160,285,0,0"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Width="195"
+                 RenderTransformOrigin="0.718,-1" />
+        <Button Content="Save"
+                Command="{Binding save, UpdateSourceTrigger=PropertyChanged}"
+                CommandParameter="{Binding ElementName=passwordBox}"
+                HorizontalAlignment="Left"
+                Height="25"
+                Margin="170,660,0,0"
+                VerticalAlignment="Top"
+                Width="135" />
+        <Label Content="CREATE RECIPE:"
+               HorizontalAlignment="Left"
+               Margin="30,39,0,0"
+               VerticalAlignment="Top"
+               Width="265"
+               FontStyle="Italic" />
+        <ComboBox HorizontalAlignment="Left"
+                  x:Name="cmbMarital_Copy"
+                  IsEditable="True"
+                  ItemsSource="{Binding recipeType, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding selectedType, UpdateSourceTrigger=PropertyChanged}"
+                  Height="22"
+                  Margin="160,245,0,0"
+                  VerticalAlignment="Top"
+                  Width="195" />
+        <Label Content="ADD INGREDIENTS:            (recipe must include at least one ingredient)"
+               HorizontalAlignment="Left"
+               Margin="20,325,0,0"
+               VerticalAlignment="Top"
+               Width="395"
+               FontStyle="Italic" />
+        <DataGrid Name="DataGridAllPatients"
+                  ItemsSource="{Binding myIngredients, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding singleIngredient, UpdateSourceTrigger=PropertyChanged}"
+                  IsReadOnly="False"
+                  HeadersVisibility="Column"
+                  AutoGenerateColumns="False"
+                  HorizontalGridLinesBrush="Black"
+                  BorderBrush="Black"
+                  Foreground="Black"
+                  FontWeight="Bold"
+                  Margin="160,360,82,79">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding name}" />
+                <DataGridTextColumn Header="Quantity"
+                                    Binding="{Binding quantity}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
