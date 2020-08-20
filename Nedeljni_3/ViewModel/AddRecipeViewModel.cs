@@ -167,40 +167,49 @@ namespace Nedeljni_3.ViewModel
         {
             try
             {
-                var b = (from x in myIngredients where x.name != "" && x.quantity > 0 select x).Any();
+                var b = (from x in myIngredients where x.name!= "" && x.quantity > 0 select x).Any();
                 if (b)
                 {
-                    recipe.authorId = author.userId;
-                    recipe.type = selectedType;
-                    tblRecipe addedRecipe = service.AddRecipe(recipe);
-                    if (addedRecipe != null)
+                    var list1 = (from x in myIngredients where x.name!=""|| x.quantity > 0 select x).ToList();
+                    var list2 = (from x in myIngredients where x.name!="" && x.quantity > 0 select x).ToList();
+                    if (list1.Count == list2.Count )
                     {
-                        int id = addedRecipe.recipeId;
-                        for (int i = 0; i < 15; i++)
+                        recipe.authorId = author.userId;
+                        recipe.type = selectedType;
+                        tblRecipe addedRecipe = service.AddRecipe(recipe);
+                        if (addedRecipe != null)
                         {
-                            if (myIngredients[i].name != "" && myIngredients[i].quantity > 0)
+                            int id = addedRecipe.recipeId;
+                            for (int i = 0; i < 15; i++)
                             {
-                                myIngredients[i].recipeId = id;
-                                myIngredients[i].status = "unresolved";
-                                service.AddIngredient(myIngredients[i]);
+                                if (myIngredients[i].name != "" && myIngredients[i].quantity > 0)
+                                {
+                                    myIngredients[i].recipeId = id;
+                                    myIngredients[i].status = "unresolved";
+                                    service.AddIngredient(myIngredients[i]);
+                                }
+                            }
+
+                            if (isEditingWindow)
+                            {
+                                MessageBox.Show("Recipe has been edited");
+                                addRecipe.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Recipe has been added");
+                                addRecipe.Close();
                             }
                         }
-
-                        if (isEditingWindow)
-                        {
-                            MessageBox.Show("Recipe has been edited");
-                            addRecipe.Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Recipe has been added");
-                            addRecipe.Close();
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ingredient quantity must be positive. Ingredient name cannot be empty.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Recipe must include at least one ingredient.");
+                    MessageBox.Show("Recipe must include at least one ingredient");
                 }
             }
             catch (Exception ex)
