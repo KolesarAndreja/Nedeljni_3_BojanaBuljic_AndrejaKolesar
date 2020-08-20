@@ -213,7 +213,7 @@ namespace Nedeljni_3.Service
         #endregion
 
         #region add
-        public static tblRecipe AddRecipe(tblRecipe recipe)
+        public tblRecipe AddRecipe(tblRecipe recipe)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace Nedeljni_3.Service
         }
 
 
-        public static tblIngredient AddIngredient(tblIngredient ingredient)
+        public tblIngredient AddIngredient(tblIngredient ingredient)
         {
             try
             {

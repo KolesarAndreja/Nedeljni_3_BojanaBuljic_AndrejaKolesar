@@ -9,16 +9,22 @@ namespace Nedeljni_3.View
     /// </summary>
     public partial class AddRecipe : Window
     {
-        public AddRecipe(tblRecipe rec)
+        public AddRecipe(tblRecipe rec, tblUser u)
         {
             InitializeComponent();
-            this.DataContext = new AddRecipeViewModel(this, rec);
+            this.DataContext = new AddRecipeViewModel(this, rec, u);
         }
 
         public AddRecipe()
         {
             InitializeComponent();
             this.DataContext = new AddRecipeViewModel(this);
+        }
+
+        public AddRecipe(tblUser u)
+        {
+            InitializeComponent();
+            this.DataContext = new AddRecipeViewModel(this, u);
         }
     }
 }

@@ -316,7 +316,7 @@ namespace Nedeljni_3.ViewModel
         {
             get
             {
-                if (currentUser.role == "user")
+                if (currentUser.role == "author")
                 {
                     return Visibility.Visible;
                 }
@@ -388,12 +388,12 @@ namespace Nedeljni_3.ViewModel
 
             try
             {
-                //user can edit only his recipes
+                //author can edit only his recipes
                 if(currentUser.role == "user")
                 {
                     if(currentUser.userId == recipe.authorId)
                     {
-                        AddRecipe addRecipe = new AddRecipe(recipe);
+                        AddRecipe addRecipe = new AddRecipe(recipe,currentUser);
                         addRecipe.ShowDialog();
                     }
                     else
@@ -404,9 +404,11 @@ namespace Nedeljni_3.ViewModel
                 //admin can edit all recipes
                 else
                 {
-                    AddRecipe addRecipe = new AddRecipe(recipe);
+                    recipe.authorId = currentUser.userId;
+                    AddRecipe addRecipe = new AddRecipe(recipe,currentUser);
                     addRecipe.ShowDialog();
                 }
+
 
             }
             catch (Exception ex)
@@ -416,6 +418,37 @@ namespace Nedeljni_3.ViewModel
         }
 
         private bool CanEditExecute()
+        {
+            return true;
+        }
+        #endregion
+
+        #region delete
+        private ICommand _delete;
+        public ICommand delete
+        {
+            get
+            {
+                if (_delete == null)
+                {
+                    _delete = new Command.RelayCommand(param => DeleteExecute(), param => CanDeleteExecute());
+
+                }
+                return _delete;
+            }
+        }
+
+        private void DeleteExecute()
+        {
+            MessageBoxResult result = MessageBox.Show("Do you realy want to delete this Recipe?", "Delete Report", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                service.DeleteRecipe(recipe);
+                //maintenanceList = Service.Service.GetMaintenanceList();
+            }
+        }
+        private bool CanDeleteExecute()
         {
             return true;
         }
