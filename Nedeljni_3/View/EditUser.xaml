@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nedeljni_3.View"
         mc:Ignorable="d"
-        Title="EditUser" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+        Title="Edit Your details:" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -44,10 +44,12 @@
                  Grid.Column="3"
                  Grid.Row="3"
                  Width="200" />
-        <TextBox Text="{Binding User.password, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding User.password, UpdateSourceTrigger=PropertyChanged}"                  
                  Grid.Column="3"
                  Grid.Row="5"
-                 Width="200" />
+                 Width="200"
+                 Name="txtUserPassword"
+                 />
         <Button Grid.Column="3"
                 Grid.Row="7"
                 Content="Save"

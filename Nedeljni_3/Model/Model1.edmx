@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dbRecipeKeeperModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dbRecipeKeeperModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblIngredient">
           <Key>
             <PropertyRef Name="ingridientId" />
@@ -12,7 +12,6 @@
           <Property Name="ingridientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
-          <Property Name="status" Type="varchar" MaxLength="20" />
           <Property Name="recipeId" Type="int" />
         </EntityType>
         <EntityType Name="tblRecipe">
@@ -27,6 +26,15 @@
           <Property Name="creationDate" Type="date" Nullable="false" />
           <Property Name="authorId" Type="int" />
         </EntityType>
+        <EntityType Name="tblShoppingList">
+          <Key>
+            <PropertyRef Name="shoppingListId" />
+          </Key>
+          <Property Name="shoppingListId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="int" />
+          <Property Name="ingridientId" Type="int" />
+          <Property Name="checked" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblUser">
           <Key>
             <PropertyRef Name="userId" />
@@ -34,7 +42,7 @@
           <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fullname" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -61,10 +69,28 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
           <Property Name="authorId" Type="int" />
           <Property Name="fullname" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
-        <Association Name="FK__tblIngred__recip__72C60C4A">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dbRecipeKeeper.dbo.vwShoppingList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwShoppingList">
+          <Key>
+            <PropertyRef Name="shoppingListId" />
+            <PropertyRef Name="checked" />
+            <PropertyRef Name="ingredient" />
+            <PropertyRef Name="role" />
+            <PropertyRef Name="fullname" />
+          </Key>
+          <Property Name="shoppingListId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" />
+          <Property Name="ingridientId" Type="int" />
+          <Property Name="checked" Type="bit" Nullable="false" />
+          <Property Name="ingredient" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="fullname" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblIngred__recip__3C69FB99">
           <End Role="tblRecipe" Type="Self.tblRecipe" Multiplicity="0..1" />
           <End Role="tblIngredient" Type="Self.tblIngredient" Multiplicity="*" />
           <ReferentialConstraint>
@@ -76,7 +102,7 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblRecipe__autho__6EF57B66">
+        <Association Name="FK__tblRecipe__autho__398D8EEE">
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblRecipe" Type="Self.tblRecipe" Multiplicity="*" />
           <ReferentialConstraint>
@@ -88,9 +114,34 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__tblShoppi__ingri__403A8C7D">
+          <End Role="tblIngredient" Type="Self.tblIngredient" Multiplicity="0..1" />
+          <End Role="tblShoppingList" Type="Self.tblShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblIngredient">
+              <PropertyRef Name="ingridientId" />
+            </Principal>
+            <Dependent Role="tblShoppingList">
+              <PropertyRef Name="ingridientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblShoppi__userI__3F466844">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblShoppingList" Type="Self.tblShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tblShoppingList">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="dbRecipeKeeperModelStoreContainer">
           <EntitySet Name="tblIngredient" EntityType="Self.tblIngredient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRecipe" EntityType="Self.tblRecipe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblShoppingList" EntityType="Self.tblShoppingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vwRecipe" EntityType="Self.vwRecipe" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -107,17 +158,35 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
     [vwRecipe].[username] AS [username]
     FROM [dbo].[vwRecipe] AS [vwRecipe]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__tblIngred__recip__72C60C4A" Association="Self.FK__tblIngred__recip__72C60C4A">
+          <EntitySet Name="vwShoppingList" EntityType="Self.vwShoppingList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwShoppingList].[shoppingListId] AS [shoppingListId], 
+    [vwShoppingList].[userId] AS [userId], 
+    [vwShoppingList].[ingridientId] AS [ingridientId], 
+    [vwShoppingList].[checked] AS [checked], 
+    [vwShoppingList].[ingredient] AS [ingredient], 
+    [vwShoppingList].[role] AS [role], 
+    [vwShoppingList].[fullname] AS [fullname]
+    FROM [dbo].[vwShoppingList] AS [vwShoppingList]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__tblIngred__recip__3C69FB99" Association="Self.FK__tblIngred__recip__3C69FB99">
             <End Role="tblRecipe" EntitySet="tblRecipe" />
             <End Role="tblIngredient" EntitySet="tblIngredient" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblRecipe__autho__6EF57B66" Association="Self.FK__tblRecipe__autho__6EF57B66">
+          <AssociationSet Name="FK__tblRecipe__autho__398D8EEE" Association="Self.FK__tblRecipe__autho__398D8EEE">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblRecipe" EntitySet="tblRecipe" />
           </AssociationSet>
+          <AssociationSet Name="FK__tblShoppi__ingri__403A8C7D" Association="Self.FK__tblShoppi__ingri__403A8C7D">
+            <End Role="tblIngredient" EntitySet="tblIngredient" />
+            <End Role="tblShoppingList" EntitySet="tblShoppingList" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblShoppi__userI__3F466844" Association="Self.FK__tblShoppi__userI__3F466844">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblShoppingList" EntitySet="tblShoppingList" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbRecipeKeeperModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -128,9 +197,9 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
           <Property Name="ingridientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
-          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="recipeId" Type="Int32" />
           <NavigationProperty Name="tblRecipe" Relationship="Self.FK__tblIngred__recip__72C60C4A" FromRole="tblIngredient" ToRole="tblRecipe" />
+          <NavigationProperty Name="tblShoppingLists" Relationship="dbRecipeKeeperModel.FK__tblShoppi__ingri__403A8C7D" FromRole="tblIngredient" ToRole="tblShoppingList" />
         </EntityType>
         <EntityType Name="tblRecipe">
           <Key>
@@ -153,9 +222,10 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
           <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fullname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="tblRecipes" Relationship="Self.FK__tblRecipe__autho__6EF57B66" FromRole="tblUser" ToRole="tblRecipe" />
+          <NavigationProperty Name="tblShoppingLists" Relationship="dbRecipeKeeperModel.FK__tblShoppi__userI__3F466844" FromRole="tblUser" ToRole="tblShoppingList" />
         </EntityType>
         <EntityType Name="vwRecipe">
           <Key>
@@ -179,7 +249,7 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
           <Property Name="authorId" Type="Int32" />
           <Property Name="fullname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <Association Name="FK__tblIngred__recip__72C60C4A">
@@ -219,7 +289,68 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
             <End Role="tblUser" EntitySet="tblUsers" />
             <End Role="tblRecipe" EntitySet="tblRecipes" />
           </AssociationSet>
+          <EntitySet Name="tblShoppingLists" EntityType="dbRecipeKeeperModel.tblShoppingList" />
+          <EntitySet Name="vwShoppingLists" EntityType="dbRecipeKeeperModel.vwShoppingList" />
+          <AssociationSet Name="FK__tblShoppi__ingri__403A8C7D" Association="dbRecipeKeeperModel.FK__tblShoppi__ingri__403A8C7D">
+            <End Role="tblIngredient" EntitySet="tblIngredients" />
+            <End Role="tblShoppingList" EntitySet="tblShoppingLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblShoppi__userI__3F466844" Association="dbRecipeKeeperModel.FK__tblShoppi__userI__3F466844">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblShoppingList" EntitySet="tblShoppingLists" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="tblShoppingList">
+          <Key>
+            <PropertyRef Name="shoppingListId" />
+          </Key>
+          <Property Name="shoppingListId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="ingridientId" Type="Int32" />
+          <Property Name="checked" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblIngredient" Relationship="dbRecipeKeeperModel.FK__tblShoppi__ingri__403A8C7D" FromRole="tblShoppingList" ToRole="tblIngredient" />
+          <NavigationProperty Name="tblUser" Relationship="dbRecipeKeeperModel.FK__tblShoppi__userI__3F466844" FromRole="tblShoppingList" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="vwShoppingList">
+          <Key>
+            <PropertyRef Name="shoppingListId" />
+            <PropertyRef Name="checked" />
+            <PropertyRef Name="ingredient" />
+            <PropertyRef Name="role" />
+            <PropertyRef Name="fullname" />
+          </Key>
+          <Property Name="shoppingListId" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="ingridientId" Type="Int32" />
+          <Property Name="checked" Type="Boolean" Nullable="false" />
+          <Property Name="ingredient" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fullname" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__tblShoppi__ingri__403A8C7D">
+          <End Type="dbRecipeKeeperModel.tblIngredient" Role="tblIngredient" Multiplicity="0..1" />
+          <End Type="dbRecipeKeeperModel.tblShoppingList" Role="tblShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblIngredient">
+              <PropertyRef Name="ingridientId" />
+            </Principal>
+            <Dependent Role="tblShoppingList">
+              <PropertyRef Name="ingridientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblShoppi__userI__3F466844">
+          <End Type="dbRecipeKeeperModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+          <End Type="dbRecipeKeeperModel.tblShoppingList" Role="tblShoppingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tblShoppingList">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -232,7 +363,6 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
                 <ScalarProperty Name="ingridientId" ColumnName="ingridientId" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
-                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="recipeId" ColumnName="recipeId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -275,6 +405,29 @@ warning 6002: The table/view 'dbRecipeKeeper.dbo.vwRecipe' does not have a prima
                 <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="username" ColumnName="username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblShoppingLists">
+            <EntityTypeMapping TypeName="dbRecipeKeeperModel.tblShoppingList">
+              <MappingFragment StoreEntitySet="tblShoppingList">
+                <ScalarProperty Name="checked" ColumnName="checked" />
+                <ScalarProperty Name="ingridientId" ColumnName="ingridientId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="shoppingListId" ColumnName="shoppingListId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwShoppingLists">
+            <EntityTypeMapping TypeName="dbRecipeKeeperModel.vwShoppingList">
+              <MappingFragment StoreEntitySet="vwShoppingList">
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="ingredient" ColumnName="ingredient" />
+                <ScalarProperty Name="checked" ColumnName="checked" />
+                <ScalarProperty Name="ingridientId" ColumnName="ingridientId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="shoppingListId" ColumnName="shoppingListId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

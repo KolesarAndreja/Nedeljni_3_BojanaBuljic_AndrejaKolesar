@@ -14,12 +14,19 @@ namespace Nedeljni_3.Model
     
     public partial class tblIngredient
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblIngredient()
+        {
+            this.tblShoppingLists = new HashSet<tblShoppingList>();
+        }
+    
         public int ingridientId { get; set; }
         public string name { get; set; }
         public int quantity { get; set; }
-        public string status { get; set; }
         public Nullable<int> recipeId { get; set; }
     
         public virtual tblRecipe tblRecipe { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblShoppingList> tblShoppingLists { get; set; }
     }
 }

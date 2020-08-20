@@ -1,6 +1,7 @@
 ﻿using Nedeljni_3.Model;
 using Nedeljni_3.ViewModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Nedeljni_3.View
 {
@@ -11,7 +12,7 @@ namespace Nedeljni_3.View
     {
         public EditUser(tblUser user)
         {
-            InitializeComponent();
+            InitializeComponent();            
             this.DataContext = new EditUserViewModel(this, user);
         }
     }

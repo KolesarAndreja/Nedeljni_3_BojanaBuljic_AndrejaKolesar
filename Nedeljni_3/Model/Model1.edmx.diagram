@@ -11,6 +11,10 @@
         <EntityTypeShape EntityType="dbRecipeKeeperModel.vwRecipe" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="dbRecipeKeeperModel.FK__tblIngred__recip__72C60C4A" ManuallyRouted="false" />
         <AssociationConnector Association="dbRecipeKeeperModel.FK__tblRecipe__autho__6EF57B66" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dbRecipeKeeperModel.tblShoppingList" Width="1.5" PointX="7.5" PointY="1.375" />
+        <EntityTypeShape EntityType="dbRecipeKeeperModel.vwShoppingList" Width="1.5" PointX="3.375" PointY="4.75" />
+        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblShoppi__ingri__403A8C7D" />
+        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblShoppi__userI__3F466844" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
