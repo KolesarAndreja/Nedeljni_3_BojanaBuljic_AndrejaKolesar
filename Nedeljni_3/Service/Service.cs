@@ -183,7 +183,6 @@ namespace Nedeljni_3.Service
         }
         #endregion
 
-
         #region delete recipe
         public void DeleteRecipe(tblRecipe recipe)
         {
