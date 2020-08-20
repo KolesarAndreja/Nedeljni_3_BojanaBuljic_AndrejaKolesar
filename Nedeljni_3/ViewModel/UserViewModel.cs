@@ -454,23 +454,6 @@ namespace Nedeljni_3.ViewModel
             return true;
         }
         #endregion
-        User userView;
-
-        public UserViewModel(User view,tblUser user)
-        {
-            userView = view;
-            User = user;
-        }
-
-        private tblUser user;
-        public tblUser User
-        {
-            get { return user; }
-            set
-            {
-                user = value;
-                OnPropertyChanged("User");
-            }
-        }
+      
     }
 }
