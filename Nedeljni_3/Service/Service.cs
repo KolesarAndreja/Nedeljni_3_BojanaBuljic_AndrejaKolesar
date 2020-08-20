@@ -31,7 +31,6 @@ namespace Nedeljni_3.Service
                 return null;
             }
         }
-        }
 
         /// <summary>
         /// Gets all users from database
@@ -261,7 +260,6 @@ namespace Nedeljni_3.Service
         #region delete recipe
         public void DeleteRecipe(tblRecipe recipe)
         {
-           {
             try
             {
                 using (RecipeKeeperEntities context = new RecipeKeeperEntities())
@@ -313,9 +311,9 @@ namespace Nedeljni_3.Service
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
             }
         }
-        #endregion
 
         #region add
         public tblRecipe AddRecipe(tblRecipe recipe)
