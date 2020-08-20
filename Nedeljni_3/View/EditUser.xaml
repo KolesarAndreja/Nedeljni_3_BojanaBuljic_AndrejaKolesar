@@ -1,0 +1,67 @@
+﻿<Window x:Class="Nedeljni_3.View.EditUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Nedeljni_3.View"
+        mc:Ignorable="d"
+        Title="Edit Your details:" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <Label Content="Fullname:"
+               Grid.Column="1"
+               Grid.Row="1" />
+        <Label Content="Username:"
+               Grid.Column="1"
+               Grid.Row="3" />
+        <Label Content="Password:"
+               Grid.Column="1"
+               Grid.Row="5" />        
+        <TextBox Text="{Binding User.fullname, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Column="3"
+                 Grid.Row="1"
+                 Width="200" />
+        <TextBox Text="{Binding User.username, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Column="3"
+                 Grid.Row="3"
+                 Width="200" />
+        <TextBox Text="{Binding User.password, UpdateSourceTrigger=PropertyChanged}"                  
+                 Grid.Column="3"
+                 Grid.Row="5"
+                 Width="200"
+                 Name="txtUserPassword"
+                 />
+        <Button Grid.Column="3"
+                Grid.Row="7"
+                Content="Save"
+                Width="90"
+                HorizontalAlignment="Left"
+                Command="{Binding Save}">            
+        </Button>
+        <Button Grid.Column="3"
+                Grid.Row="7"
+                Content="Cancel"
+                Command="{Binding Cancel}"
+                Width="90"
+                HorizontalAlignment="Right" />
+    </Grid>
+</Window>

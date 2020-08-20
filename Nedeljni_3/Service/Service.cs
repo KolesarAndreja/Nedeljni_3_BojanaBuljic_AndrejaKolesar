@@ -19,6 +19,7 @@ namespace Nedeljni_3.Service
             {
                 using (RecipeKeeperEntities context = new RecipeKeeperEntities())
                 {
+
                     List<tblRecipe> list = new List<tblRecipe>();
                     list = (from x in context.tblRecipes select x).ToList();
                     return list;
@@ -30,6 +31,31 @@ namespace Nedeljni_3.Service
                 return null;
             }
         }
+        }
+
+        /// <summary>
+        /// Gets all users from database
+        /// </summary>
+        /// <returns>list of users</returns>
+        public List<tblUser> GetAllUsers()
+
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    List<tblUser> list = new List<tblUser>();
+                    list = (from x in context.tblUsers select x).ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
 
         //return a list of those recipes that contain the given string in its title
         public List<tblRecipe> GetRecipesByTitle(List<tblRecipe> recipes, string title)
@@ -94,6 +120,7 @@ namespace Nedeljni_3.Service
                 {
                     bool r = (from x in context.tblIngredients where x.recipeId == recipeId && x.name == ingredient select x).Any();
                     return r;
+
                 }
             }
             catch (Exception ex)
@@ -102,6 +129,24 @@ namespace Nedeljni_3.Service
                 return false;
             }
         }
+
+        public  bool IsRegisteredUser(string username)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    bool result = (from x in context.tblUsers where x.username == username select x).Any();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception " + ex.Message.ToString());
+                return false;
+            }
+        }
+
 
         //get all indgredians for one recipe
         public List<tblIngredient> AllIngredientForRecipe(int recipeId)
@@ -112,6 +157,36 @@ namespace Nedeljni_3.Service
                 {
                     List<tblIngredient> r = (from x in context.tblIngredients where x.recipeId == recipeId select x).ToList();
                     return r;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Adds the user
+        /// </summary>
+        /// <param name="userName"></param>    
+        /// <param name="pass"></param>
+        /// <returns>user</returns>
+        public tblUser AddUser(string userName, string pass)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    tblUser user = new tblUser();
+                    user.fullname = userName;
+                    user.username = userName;
+                    user.password = pass;
+                    user.role = "user";
+                    context.tblUsers.Add(user);
+                    context.SaveChanges();
+                    return user;
                 }
             }
             catch (Exception ex)
@@ -186,6 +261,7 @@ namespace Nedeljni_3.Service
         #region delete recipe
         public void DeleteRecipe(tblRecipe recipe)
         {
+           {
             try
             {
                 using (RecipeKeeperEntities context = new RecipeKeeperEntities())
@@ -202,6 +278,36 @@ namespace Nedeljni_3.Service
                     tblRecipe toDelete = (from u in context.tblRecipes where u.recipeId == recipe.recipeId select u).First();
                     context.tblRecipes.Remove(toDelete);
                     context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Adds the user
+        /// </summary>
+        /// <param name="userName"></param>    
+        /// <param name="pass"></param>
+        /// <returns>user</returns>
+        public tblUser EditUser(tblUser user)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    tblUser userToEdit = (from x in context.tblUsers where x.userId == user.userId select x).First();
+                    userToEdit.fullname = user.fullname;
+                    userToEdit.username = user.username;                    
+                    userToEdit.password = user.password;
+                    userToEdit.role = "user";
+                    userToEdit.userId = user.userId;
+                    context.SaveChanges();
+                    return user;
                 }
             }
             catch (Exception ex)
@@ -251,7 +357,7 @@ namespace Nedeljni_3.Service
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Exception: " + ex.Message.ToString());
+                Debug.WriteLine("Exception: " + ex.Message.ToString());
                 return null;
             }
         }
@@ -291,5 +397,29 @@ namespace Nedeljni_3.Service
             }
         }
         #endregion
+        /// <summary>
+        /// Gets user by forwarded username.
+        /// </summary>
+        /// <param name="userName">User's username</param>   
+        /// <param name="pass">User's password</param>
+        /// <returns>User.</returns>
+        public tblUser GetUserByUsernameAndPass(string userName, string pass)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+
+                    return context.tblUsers.Where(x => x.username == userName && x.password == pass).FirstOrDefault();
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+            
+        }
+
     }
 }

@@ -5,8 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nedeljni_3.View"
         mc:Ignorable="d"
-        Title="Login" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Login"
+        MinHeight="200"
+        MinWidth="270"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        Background="DarkSlateGray">
+    <Border Background="DarkSeaGreen"
+            CornerRadius="20"
+            Margin="20">
+        <StackPanel Margin="20">
+            <Label Content="Login"
+                   Foreground="White"
+                   FontSize="25"
+                   HorizontalAlignment="Center" />
+            <Separator></Separator>
+            <Label Content="Username"
+                   Foreground="White" />
+            <TextBox Name="txtUsername"
+                     Background="DimGray"
+                     Foreground="White"
+                     FontSize="18"
+                     Text="{Binding CurrentUser.username, UpdateSourceTrigger=PropertyChanged}" />
+            <Label HorizontalAlignment="Left"
+                   Content="{Binding InfoLabel, Mode=OneWay}"
+                   Foreground="Black" />
+            <Label Content="Password"
+                   Foreground="White" />
+            <PasswordBox Name="passwordBox"
+                         Background="DimGray"
+                         Foreground="White"
+                         FontSize="18" />
+            <Button Command="{Binding LogIn}"
+                    Width="90"
+                    Height="35"
+                    CommandParameter="{Binding ElementName=passwordBox}"
+                    Content="LogIn"
+                    Margin="60 40"
+                    Background="DimGray"
+                    FontSize="18"
+                    HorizontalAlignment="Left" />
+           
+        </StackPanel>
+    </Border>
 </Window>
