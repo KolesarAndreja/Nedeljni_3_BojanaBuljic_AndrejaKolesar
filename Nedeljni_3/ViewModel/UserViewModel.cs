@@ -459,7 +459,7 @@ namespace Nedeljni_3.ViewModel
             return true;
         }
         #endregion
-
+        
         #region Read recipe
         private ICommand _readRecipe;
         public ICommand readRecipe
