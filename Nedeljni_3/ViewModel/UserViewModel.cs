@@ -3,9 +3,6 @@ using Nedeljni_3.View;
 using Nedeljni_3.Service;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Nedeljni_3.Command;
 using System.Windows;
@@ -51,6 +48,7 @@ namespace Nedeljni_3.ViewModel
         {
             get
             {
+
                 return _recipe;
             }
             set
@@ -319,7 +317,6 @@ namespace Nedeljni_3.ViewModel
                 OnPropertyChanged("visibilityAdmin");
             }
         }
-
         private Visibility _visibilityUser;
         public Visibility visibilityUser
         {
@@ -393,25 +390,33 @@ namespace Nedeljni_3.ViewModel
 
             try
             {
-                //author can edit only his recipes
-                if(currentUser.role == "user")
+                if (recipe != null)
                 {
-                    if(currentUser.userId == recipe.authorId)
+                    //author can edit only his recipes
+                    if (currentUser.role == "user")
                     {
-                        EditRecipe editRecipe = new EditRecipe(currentUser,recipe);
-                        editRecipe.ShowDialog();
+                        if (currentUser.userId == recipe.authorId)
+                        {
+                            EditRecipe editRecipe = new EditRecipe(currentUser, recipe);
+                            editRecipe.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Only author or admin can edit this Recipe");
+                        }
                     }
+                    //admin can edit all recipes
                     else
                     {
-                        MessageBox.Show("Only author or admin can edit this Recipe");
+                        EditRecipe editRecipe = new EditRecipe(currentUser, recipe);
+                        editRecipe.ShowDialog();
                     }
                 }
-                //admin can edit all recipes
                 else
                 {
-                    EditRecipe editRecipe = new EditRecipe(currentUser, recipe);
-                    editRecipe.ShowDialog();
+                    MessageBox.Show("Please select the recipe that you want to edit.");
                 }
+               
 
 
             }
@@ -444,16 +449,24 @@ namespace Nedeljni_3.ViewModel
 
         private void DeleteExecute()
         {
-            MessageBoxResult result = MessageBox.Show("Do you realy want to delete this Recipe?", "Delete Report", MessageBoxButton.YesNo);
-
-            if (result == MessageBoxResult.Yes)
+            if (recipe != null)
             {
-                service.DeleteRecipe(recipe);
-                IsDeleted = true;
-                MessageBox.Show("Recipe is deleted.", "Notification", MessageBoxButton.OK);
-                RecipeList = service.GetAllRecipes();
-                
+                MessageBoxResult result = MessageBox.Show("Do you realy want to delete this Recipe?", "Delete Report", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    service.DeleteRecipe(recipe);
+                    IsDeleted = true;
+                    MessageBox.Show("Recipe is deleted.", "Notification", MessageBoxButton.OK);
+                    RecipeList = service.GetAllRecipes();
+
+                }
             }
+            else
+            {
+                MessageBox.Show("Please select the recipe that you want to delete.");
+            }
+
         }
         private bool CanDeleteExecute()
         {
@@ -478,10 +491,17 @@ namespace Nedeljni_3.ViewModel
         private void ReadRecipeExecute()
         {
             try
-            { 
-                recipe=service.GetSelectedRecipe(recipe.recipeId);
-                ShowRecipe showRecipe = new ShowRecipe(recipe);
-                showRecipe.ShowDialog();
+            {
+                if (recipe != null)
+                {
+                    recipe = service.GetSelectedRecipe(recipe.recipeId);
+                    ShowRecipe showRecipe = new ShowRecipe(recipe);
+                    showRecipe.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Please select the recipe that you want to read.");
+                }
 
             }
             catch (Exception ex)

@@ -125,7 +125,8 @@
                 Grid.Row="5">
             <Button Name="btnEditRecipe"
                     Content="Edit"
-                    Command="{Binding edit, UpdateSourceTrigger=PropertyChanged}"                              
+                    Command="{Binding edit, UpdateSourceTrigger=PropertyChanged}"   
+                    Visibility="{Binding anyRole, UpdateSourceTrigger=PropertyChanged}"
                     Margin="4"
                     Height="25" 
                     FontWeight="Bold" />
@@ -137,6 +138,7 @@
                     Height="25" 
                     FontWeight="Bold" />
             <Button Name="btnRead"
+                    Visibility="{Binding anyRole, UpdateSourceTrigger=PropertyChanged}"
                     Content="Read Recipe"   
                     Command="{Binding readRecipe}"
                     Margin="4"

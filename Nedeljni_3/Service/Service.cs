@@ -383,9 +383,7 @@ namespace Nedeljni_3.Service
                     List<tblIngredient> ing = AllIngredientForRecipe(recipe.recipeId);
                     for (int i = 0; i < ing.Count; i++)
                     {
-                        tblIngredient ingToDelete = (from u in context.tblIngredients where u.ingridientId == ing[i].ingridientId select u).First();
-                        context.tblIngredients.Remove(ingToDelete);
-                        context.SaveChanges();
+                        DeleteIngredient(ing[i]);
                     }
                     //now we can remove our Recipe
                     tblRecipe toDelete = (from u in context.tblRecipes where u.recipeId == recipe.recipeId select u).First();
@@ -396,6 +394,29 @@ namespace Nedeljni_3.Service
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+
+        /// <summary>
+        /// This method deletes ingredient.
+        /// </summary>
+        /// <param name="ingredient">Ingredient to be deleted.</param>
+        public bool DeleteIngredient(tblIngredient ingredient)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    tblIngredient ingredientToDelete = context.tblIngredients.Where(x => x.ingridientId == ingredient.ingridientId).FirstOrDefault();
+                    context.tblIngredients.Remove(ingredientToDelete);
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return false;
             }
         }
         #endregion       
@@ -522,28 +543,7 @@ namespace Nedeljni_3.Service
         }
         #endregion
 
-        /// <summary>
-        /// This method deletes ingredient.
-        /// </summary>
-        /// <param name="ingredient">Ingredient to be deleted.</param>
-        public bool DeleteIngredient(tblIngredient ingredient)
-        {
-            try
-            {
-                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
-                {
-                    tblIngredient ingredientToDelete = context.tblIngredients.Where(x => x.ingridientId == ingredient.ingridientId).FirstOrDefault();
-                    context.tblIngredients.Remove(ingredientToDelete);
-                    context.SaveChanges();
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Exception" + ex.Message.ToString());
-                return false;
-            }
-        }
+
 
         #region get selected recipe
         /// <summary>
