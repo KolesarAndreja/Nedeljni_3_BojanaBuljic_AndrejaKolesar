@@ -26,10 +26,7 @@
                      Background="DimGray"
                      Foreground="White"
                      FontSize="18"
-                     Text="{Binding CurrentUser.username, UpdateSourceTrigger=PropertyChanged}" />
-            <Label HorizontalAlignment="Left"
-                   Content="{Binding InfoLabel, Mode=OneWay}"
-                   Foreground="Black" />
+                     Text="{Binding CurrentUser.username, UpdateSourceTrigger=PropertyChanged}" />            
             <Label Content="Password"
                    Foreground="White" />
             <PasswordBox Name="passwordBox"

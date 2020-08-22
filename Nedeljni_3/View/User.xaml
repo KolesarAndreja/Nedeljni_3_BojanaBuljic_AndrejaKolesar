@@ -6,141 +6,155 @@
         xmlns:local="clr-namespace:Nedeljni_3.View"
         mc:Ignorable="d"
         Title="User"
-        Height="600"
-        Width="800">
+        SizeToContent="WidthAndHeight">
     <Grid>
-        <Button Content="Log out"
-                Command="{Binding logOut, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalAlignment="Left"
-                Height="25"
-                Margin="615,20,0,0"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <Button Grid.Column="5"
+                Grid.Row="1"
+                Content="Log out"
+                Command="{Binding logOut}"
+                HorizontalAlignment="Right"
+                Height="25"                
                 VerticalAlignment="Top"
-                Width="125" />
-        <Button Content="Add Recipe"
-                Command="{Binding addRecipe, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalAlignment="Left"
-                Margin="30,20,0,0"
+                Width="125" />        
+        <Button Grid.Column="1"
+                Grid.Row="1"
+                Content="Add Recipe"
+                Command="{Binding addRecipe}"
+                HorizontalAlignment="Center"              
                 VerticalAlignment="Top"
                 Width="125"
                 Height="25" />
-        <DataGrid Name="DataGridRecipes"
-                  ItemsSource="{Binding recipeList, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding recipe, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True"
-                  HeadersVisibility="Column"
-                  AutoGenerateColumns="False"
-                  HorizontalGridLinesBrush="Black"
+        <Label Grid.Column="1"
+               Grid.Row="3"
+               Content="SORT BY:"
+               HorizontalAlignment="Left"               
+               VerticalAlignment="Center" />        
+        <StackPanel Grid.Column="1"
+                    Grid.Row="5"
+                    Grid.RowSpan="6">            
+            <Button Content="Title (ASC)"
+                    Command="{Binding titleAsc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Title (DESC)"
+                    Command="{Binding titleDesc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Date (ASC)"
+                    Command="{Binding dateAsc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Date (DESC)"
+                    Command="{Binding dateDesc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Number of ingredients (ASC)"
+                    Command="{Binding numberAsc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Number of ingredients (DESC)"
+                    Command="{Binding numberDesc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+        </StackPanel>
+        <ListView x:Name="RecipesListView" ItemsSource="{Binding RecipeList}"
+                  SelectedItem="{Binding recipe}"
+                  Grid.Column="3"
+                  Grid.Row="5"
+                  Grid.RowSpan="6"
                   BorderBrush="Black"
                   Foreground="Black"
-                  FontWeight="Bold"
-                  Margin="205,80,42,309">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Title"
-                                    Binding="{Binding title}" />
-                <DataGridTextColumn Header="Type"
-                                    Binding="{Binding type}" />
-                <DataGridTextColumn Header="Number of persons"
-                                    Binding="{Binding numberOfPersons}" />
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Name="btnEditRecipe"
-                                    Content="Edit"
-                                    Command="{Binding DataContext.editRecipe, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                    Margin="4"
-                                    FontWeight="Bold" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-            <DataGridTemplateColumn>
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Button Name="btnDelete"
-                                Content="Delete"
-                                Visibility="{Binding visibilityAdmin, UpdateSourceTrigger=PropertyChanged}"
-                                Command="{Binding Path=DataContext.delete, RelativeSource= {RelativeSource FindAncestor,
-                                       AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged}"
+                  FontWeight="Bold">
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">                    
+                    <GridViewColumn Header="Title" Width="100"
+                                    DisplayMemberBinding="{Binding title}"/>
+                    <GridViewColumn Header="Type" Width="100"
+                                    DisplayMemberBinding="{Binding type}"/>
+                    <GridViewColumn Header="Number of persons" Width="120"
+                                    DisplayMemberBinding="{Binding numberOfPersons}"/>                    
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.RowSpan="4"
+                Grid.Column="5"
+                Grid.Row="5">
+            <Button Name="btnEditRecipe"
+                    Content="Edit"
+                    Command="{Binding edit, UpdateSourceTrigger=PropertyChanged}"                              
+                    Margin="4"
+                    Height="25" 
+                    FontWeight="Bold" />
+            <Button Name="btnDelete"               
+                    Content="Delete"                                
+                    Visibility="{Binding visibilityAdmin, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding delete}"
+                    Margin="4"
+                    Height="25" 
+                    FontWeight="Bold" />
+            <Button Name="btnRead"
+                    Content="Read Recipe"   
+                    Command="{Binding readRecipe}"
+                    Margin="4"
+                    Height="25" 
+                    FontWeight="Bold" />
+            <Button Name="btnCalculate"
+                    Content="Calculate quantity"
+                    Visibility="{Binding visibilityUser, UpdateSourceTrigger=PropertyChanged}"
+                                Command="{Binding CalculateQuantity}"
                                 Margin="4"
-                                FontWeight="Bold" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn>
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Button Name="btnRead"
-                                Content="Read Recipe"
-                                Visibility="{Binding visibilityUser, UpdateSourceTrigger=PropertyChanged}"
-                                Command="{Binding Path=DataContext.deletePatient, RelativeSource= {RelativeSource FindAncestor,
-                                       AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged}"
-                                Margin="4"
-                                FontWeight="Bold" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn>
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Button Name="btnCalculate"
-                                Content="Calculate quantity"
-                                Command="{Binding Path=DataContext.deletePatient, RelativeSource= {RelativeSource FindAncestor,
-                                       AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged}"
-                                Margin="4"
-                                FontWeight="Bold" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid> 
-        <Button Content="Title (ASC)"
-                Command="{Binding titleAsc, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalAlignment="Left"
-                Margin="15,101,0,0"
-                VerticalAlignment="Top"
-                Width="165"
-                Height="25" />
-        <Button Content="Title (DESC)"
-                Command="{Binding titleDesc, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalAlignment="Left"
-                Margin="15,131,0,0"
-                VerticalAlignment="Top"
-                Width="165"
-                Height="25" />
-        <Button Content="Date (ASC)"
-                Command="{Binding dateAsc, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalAlignment="Left"
-                Margin="15,161,0,0"
-                VerticalAlignment="Top"
-                Width="165"
-                Height="25" />
-        <Button Content="Date (DESC)"
-                Command="{Binding dateDesc, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalAlignment="Left"
-                Margin="15,191,0,0"
-                VerticalAlignment="Top"
-                Width="165"
-                Height="25" />
-        <Button Content="Number of ingredients (ASC)"
-                Command="{Binding numberAsc, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalAlignment="Left"
-                Margin="15,221,0,0"
-                VerticalAlignment="Top"
-                Width="165"
-                Height="25" />
-        <Button Content="Number of ingredients (DESC)"
-                Command="{Binding numberDesc, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalAlignment="Left"
-                Margin="15,251,0,0"
-                VerticalAlignment="Top"
-                Width="165"
-                Height="25" />
-        <Label Content="SORT BY:"
-               HorizontalAlignment="Left"
-               Margin="13,70,0,0"
-               VerticalAlignment="Top" />
-        <Label Content="SEARCH BY:"
-               HorizontalAlignment="Left"
-               Margin="20,294,0,0"
+                    Height="25" 
+                    FontWeight="Bold" />
+        </StackPanel>
+       
+        <Label Grid.Row="13"
+               Grid.Column="1"
+                Content="SEARCH BY:"
+               HorizontalAlignment="Left"               
                VerticalAlignment="Top" />
     </Grid>
 </Window>

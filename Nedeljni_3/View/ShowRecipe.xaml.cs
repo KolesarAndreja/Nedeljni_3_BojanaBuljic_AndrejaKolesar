@@ -5,14 +5,14 @@ using System.Windows;
 namespace Nedeljni_3.View
 {
     /// <summary>
-    /// Interaction logic for AddRecipe.xaml
+    /// Interaction logic for ShowRecipe.xaml
     /// </summary>
-    public partial class AddRecipe : Window
+    public partial class ShowRecipe : Window
     {
-        public AddRecipe(tblUser u)
+        public ShowRecipe(tblRecipe recipe)
         {
             InitializeComponent();
-            this.DataContext = new AddRecipeViewModel(this, u);
+            this.DataContext = new ShowRecipeViewModel(this, recipe);
         }
     }
 }

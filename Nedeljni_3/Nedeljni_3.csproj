@@ -100,15 +100,27 @@
     </Compile>
     <Compile Include="Service\Service.cs" />
     <Compile Include="Validation\ValidationClass.cs" />
+    <Compile Include="ViewModel\AddIngredientsViewModel.cs" />
     <Compile Include="ViewModel\AddRecipeViewModel.cs" />
-    <Compile Include="ViewModel\AdminViewModel.cs" />
+    <Compile Include="ViewModel\EditIngredientsViewModel.cs" />
+    <Compile Include="ViewModel\EditRecipeViewModel.cs" />
     <Compile Include="ViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\ShoppingListViewModel.cs" />
+    <Compile Include="ViewModel\ShowRecipeViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\AddIngredients.xaml.cs">
+      <DependentUpon>AddIngredients.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddRecipe.xaml.cs">
       <DependentUpon>AddRecipe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditIngredients.xaml.cs">
+      <DependentUpon>EditIngredients.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditRecipe.xaml.cs">
+      <DependentUpon>EditRecipe.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditUser.xaml.cs">
       <DependentUpon>EditUser.xaml</DependentUpon>
@@ -118,6 +130,9 @@
     </Compile>
     <Compile Include="View\ShoppingList.xaml.cs">
       <DependentUpon>ShoppingList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ShowRecipe.xaml.cs">
+      <DependentUpon>ShowRecipe.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User.xaml.cs">
       <DependentUpon>User.xaml</DependentUpon>
@@ -135,7 +150,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AddIngredients.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddRecipe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditIngredients.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditRecipe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ShoppingList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ShowRecipe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,7 +221,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

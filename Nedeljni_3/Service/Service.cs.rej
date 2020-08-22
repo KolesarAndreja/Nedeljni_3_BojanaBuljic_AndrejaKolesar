@@ -1,0 +1,13 @@
+diff a/Nedeljni_3/Service/Service.cs b/Nedeljni_3/Service/Service.cs	(rejected hunks)
+@@ -311,9 +311,10 @@
+             catch (Exception ex)
+             {
+                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
++                return null;
+             }
+         }
+-        #endregion
++
+ 
+         #region add
+         public tblRecipe AddRecipe(tblRecipe recipe)

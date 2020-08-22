@@ -10,28 +10,7 @@ namespace Nedeljni_3.Service
 {
     class Service
     {
-
-        #region recipes list by type, name, ingredients
-        //get all
-        public List<tblRecipe> GetAllRecipes()
-        {
-            try
-            {
-                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
-                {
-
-                    List<tblRecipe> list = new List<tblRecipe>();
-                    list = (from x in context.tblRecipes select x).ToList();
-                    return list;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Exception" + ex.Message.ToString());
-                return null;
-            }
-        }
-
+        #region User
         /// <summary>
         /// Gets all users from database
         /// </summary>
@@ -55,81 +34,12 @@ namespace Nedeljni_3.Service
             }
         }
 
-
-        //return a list of those recipes that contain the given string in its title
-        public List<tblRecipe> GetRecipesByTitle(List<tblRecipe> recipes, string title)
-        {
-            List<tblRecipe> result = new List<tblRecipe>();
-            for (int i = 0; i < recipes.Count; i++)
-            {
-                if (recipes[i].title.Contains(title))
-                {
-                    result.Add(recipes[i]);
-                }
-            }
-            return result;
-        }
-
-
-        //return a list of those recipes that have given type
-        public List<tblRecipe> GetRecipesByType(List<tblRecipe> recipes, string type)
-        {
-            List<tblRecipe> result = new List<tblRecipe>();
-            for (int i = 0; i < recipes.Count; i++)
-            {
-                if (recipes[i].type == type)
-                {
-                    result.Add(recipes[i]);
-                }
-            }
-            return result;
-        }
-
-        public List<tblRecipe> GetRecipesByIngredients(List<tblRecipe> recipes, List<string> ingredients)
-        {
-            List<tblRecipe> result = new List<tblRecipe>();
-            for (int i = 0; i < recipes.Count; i++)
-            {
-                int id = recipes[i].recipeId;
-                //the number of ingredients that match
-                int num = 0;
-
-                for (int j = 0; j < ingredients.Count; j++)
-                {
-                    if (IsRecipeIngredient(id, ingredients[j]))
-                    {
-                        num++;
-                    }
-                }
-
-                if (num == ingredients.Count)
-                {
-                    result.Add(recipes[i]);
-                }
-            }
-            return result;
-        }
-
-
-        public bool IsRecipeIngredient(int recipeId, string ingredient)
-        {
-            try
-            {
-                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
-                {
-                    bool r = (from x in context.tblIngredients where x.recipeId == recipeId && x.name == ingredient select x).Any();
-                    return r;
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Exception" + ex.Message.ToString());
-                return false;
-            }
-        }
-
-        public  bool IsRegisteredUser(string username)
+        /// <summary>
+        /// Check if user is registered by forwarded username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>true if registered, false if not</returns>
+        public bool IsRegisteredUser(string username)
         {
             try
             {
@@ -143,26 +53,6 @@ namespace Nedeljni_3.Service
             {
                 System.Diagnostics.Debug.WriteLine("Exception " + ex.Message.ToString());
                 return false;
-            }
-        }
-
-
-        //get all indgredians for one recipe
-        public List<tblIngredient> AllIngredientForRecipe(int recipeId)
-        {
-            try
-            {
-                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
-                {
-                    List<tblIngredient> r = (from x in context.tblIngredients where x.recipeId == recipeId select x).ToList();
-                    return r;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                Debug.WriteLine("Exception" + ex.Message.ToString());
-                return null;
             }
         }
 
@@ -194,36 +84,252 @@ namespace Nedeljni_3.Service
                 return null;
             }
         }
+
+        ///// <summary>
+        ///// Method to edit the user
+        ///// </summary>
+        ///// <param name="userName"></param>    
+        ///// <param name="pass"></param>
+        ///// <returns>user</returns>
+        //public tblUser EditUser(tblUser user)
+        //{
+        //    try
+        //    {
+        //        using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+        //        {
+        //            tblUser userToEdit = (from x in context.tblUsers where x.userId == user.userId select x).First();
+        //            userToEdit.fullname = user.fullname;
+        //            userToEdit.username = user.username;
+        //            userToEdit.password = user.password;
+        //            userToEdit.role = "user";
+        //            userToEdit.userId = user.userId;
+        //            context.SaveChanges();
+        //            return user;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+        //        return null;
+        //    }
+        //}
+
+        /// <summary>
+        /// Gets user by forwarded username.
+        /// </summary>
+        /// <param name="userName">User's username</param>   
+        /// <param name="pass">User's password</param>
+        /// <returns>User.</returns>
+        public tblUser GetUserByUsernameAndPass(string userName, string pass)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+
+                    return context.tblUsers.Where(x => x.username == userName && x.password == pass).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+
+        }
         #endregion
 
-        #region sort lists
-        //title
+        #region recipes list by type, name, ingredients
+        /// <summary>
+        /// Method to get all recipes from db
+        /// </summary>
+        /// <returns>list of Recipes</returns>
+        public List<tblRecipe> GetAllRecipes()
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+
+                    List<tblRecipe> list = new List<tblRecipe>();
+                    list = (from x in context.tblRecipes select x).ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// return a list of those recipes that contain the given string in its title
+        /// </summary>
+        /// <param name="recipes"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public List<tblRecipe> GetRecipesByTitle(List<tblRecipe> recipes, string title)
+        {
+            List<tblRecipe> result = new List<tblRecipe>();
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                if (recipes[i].title.Contains(title))
+                {
+                    result.Add(recipes[i]);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// return a list of those recipes that have given type
+        /// </summary>
+        /// <param name="recipes"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public List<tblRecipe> GetRecipesByType(List<tblRecipe> recipes, string type)
+        {
+            List<tblRecipe> result = new List<tblRecipe>();
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                if (recipes[i].type == type)
+                {
+                    result.Add(recipes[i]);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get recipes that contains forwarded list of ingredients
+        /// </summary>
+        /// <param name="recipes"></param>
+        /// <param name="ingredients"></param>
+        /// <returns></returns>
+        public List<tblRecipe> GetRecipesByIngredients(List<tblRecipe> recipes, List<string> ingredients)
+        {
+            List<tblRecipe> result = new List<tblRecipe>();
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                int id = recipes[i].recipeId;
+                //the number of ingredients that match
+                int num = 0;
+
+                for (int j = 0; j < ingredients.Count; j++)
+                {
+                    if (IsRecipeIngredient(id, ingredients[j]))
+                    {
+                        num++;
+                    }
+                }
+
+                if (num == ingredients.Count)
+                {
+                    result.Add(recipes[i]);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Check if ingredint is in recipe
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <param name="ingredient"></param>
+        /// <returns></returns>
+        public bool IsRecipeIngredient(int recipeId, string ingredient)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    bool r = (from x in context.tblIngredients where x.recipeId == recipeId && x.name == ingredient select x).Any();
+                    return r;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return false;
+            }
+        } 
+
+        /// <summary>
+        /// Method to get all ingredient from selected recipe
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <returns></returns>
+        public List<tblIngredient> AllIngredientForRecipe(int recipeId)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    List<tblIngredient> r = (from x in context.tblIngredients where x.recipeId == recipeId select x).ToList();
+                    return r;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }        
+        #endregion
+
+        #region sort lists        
+        /// <summary>
+        /// Sort List of recipes by title ascending
+        /// </summary>
+        /// <param name="recipes"></param>
+        /// <returns></returns>
         public List<tblRecipe> SortByTitleAsc(List<tblRecipe> recipes)
         {
             List<tblRecipe> sortedList = recipes.OrderBy(o => o.title).ToList();
             return sortedList;
         }
 
+        /// <summary>
+        /// Sort list of recipes by title descending
+        /// </summary>
+        /// <param name="recipes"></param>
+        /// <returns></returns>
         public List<tblRecipe> SortByTitleDesc(List<tblRecipe> recipes)
         {
             List<tblRecipe> sortedList = recipes.OrderByDescending(o => o.title).ToList();
             return sortedList;
         }
 
-        //date
+        /// <summary>
+        /// Sort list of recipes by creatin date descending
+        /// </summary>
+        /// <param name="recipes"></param>
+        /// <returns></returns>
         public List<tblRecipe> SortByDateDesc(List<tblRecipe> recipes)
         {
             List<tblRecipe> sortedList = recipes.OrderByDescending(o => o.creationDate).ToList();
             return sortedList;
         }
 
+        /// <summary>
+        /// sort list of recipes by creation date ascending
+        /// </summary>
+        /// <param name="recipes"></param>
+        /// <returns></returns>
         public List<tblRecipe> SortByDateAsc(List<tblRecipe> recipes)
         {
             List<tblRecipe> sortedList = recipes.OrderBy(o => o.creationDate).ToList();
             return sortedList;
         }
 
-        //number of ingredience
+        /// <summary>
+        /// sort list of recipe by number of ingredients ascending
+        /// </summary>
+        /// <param name="recipes"></param>
+        /// <returns></returns>
         public List<tblRecipe> SortByNumberOfIngredianceAsc(List<tblRecipe> recipes)
         {
             List<tblRecipe> list = new List<tblRecipe>();
@@ -240,6 +346,11 @@ namespace Nedeljni_3.Service
             return list;
         }
 
+        /// <summary>
+        /// sort list of recipe by number of ingredients descending
+        /// </summary>
+        /// <param name="recipes"></param>
+        /// <returns></returns>
         public List<tblRecipe> SortByNumberOfIngredianceDesc(List<tblRecipe> recipes)
         {
             List<tblRecipe> list = new List<tblRecipe>();
@@ -258,6 +369,10 @@ namespace Nedeljni_3.Service
         #endregion
 
         #region delete recipe
+        /// <summary>
+        /// Method to delete recipe
+        /// </summary>
+        /// <param name="recipe"></param>
         public void DeleteRecipe(tblRecipe recipe)
         {
             try
@@ -272,7 +387,7 @@ namespace Nedeljni_3.Service
                         context.tblIngredients.Remove(ingToDelete);
                         context.SaveChanges();
                     }
-                    //now we can remove our recipe
+                    //now we can remove our Recipe
                     tblRecipe toDelete = (from u in context.tblRecipes where u.recipeId == recipe.recipeId select u).First();
                     context.tblRecipes.Remove(toDelete);
                     context.SaveChanges();
@@ -283,11 +398,11 @@ namespace Nedeljni_3.Service
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
             }
         }
-        #endregion
+        #endregion       
 
-
+        #region add Recipe
         /// <summary>
-        /// Adds the user
+        /// Method to add or edit the recipe
         /// </summary>
         /// <param name="userName"></param>    
         /// <param name="pass"></param>
@@ -314,9 +429,11 @@ namespace Nedeljni_3.Service
                 return null;
             }
         }
-
+        #endregion
 
         #region add
+        /// <param name="recipe"></param>
+        /// <returns></returns>
         public tblRecipe AddRecipe(tblRecipe recipe)
         {
             try
@@ -360,20 +477,28 @@ namespace Nedeljni_3.Service
                 return null;
             }
         }
+        #endregion
 
-
+        #region Add ingredient
+        /// <summary>
+        /// Method to add or edit ingredient into db
+        /// </summary>
+        /// <param name="ingredient"></param>
+        /// <returns></returns>
         public tblIngredient AddIngredient(tblIngredient ingredient)
         {
             try
             {
                 using (RecipeKeeperEntities context = new RecipeKeeperEntities())
                 {
-                    if ( ingredient.ingridientId == 0)
+                    if (ingredient.ingridientId == 0)
                     {
                         //add 
                         tblIngredient newIng = new tblIngredient();
                         newIng.name = ingredient.name;
                         newIng.quantity = ingredient.quantity;
+                        newIng.recipeId = ingredient.recipeId;
+                        context.tblIngredients.Add(newIng);
                         context.SaveChanges();
                         ingredient.ingridientId = newIng.ingridientId;
                         return ingredient;
@@ -396,29 +521,52 @@ namespace Nedeljni_3.Service
             }
         }
         #endregion
+
         /// <summary>
-        /// Gets user by forwarded username.
+        /// This method deletes ingredient.
         /// </summary>
-        /// <param name="userName">User's username</param>   
-        /// <param name="pass">User's password</param>
-        /// <returns>User.</returns>
-        public tblUser GetUserByUsernameAndPass(string userName, string pass)
+        /// <param name="ingredient">Ingredient to be deleted.</param>
+        public bool DeleteIngredient(tblIngredient ingredient)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    tblIngredient ingredientToDelete = context.tblIngredients.Where(x => x.ingridientId == ingredient.ingridientId).FirstOrDefault();
+                    context.tblIngredients.Remove(ingredientToDelete);
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return false;
+            }
+        }
+
+        #region get selected recipe
+        /// <summary>
+        /// Method to show selected Recipe based on id
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <returns></returns>
+        public tblRecipe GetSelectedRecipe(int recipeId)
         {
             try
             {
                 using (RecipeKeeperEntities context = new RecipeKeeperEntities())
                 {
 
-                    return context.tblUsers.Where(x => x.username == userName && x.password == pass).FirstOrDefault();
+                    return context.tblRecipes.Where(x => x.recipeId == recipeId).FirstOrDefault();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine("Exception" + ex.Message.ToString());
                 return null;
             }
-            
         }
-
+        #endregion
     }
 }

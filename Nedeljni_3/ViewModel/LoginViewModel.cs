@@ -25,7 +25,7 @@ namespace Nedeljni_3.ViewModel
         public LoginViewModel(Login login)
         {
             this.login = login;
-            CurrentUser = new LoggedUser();
+            CurrentUser = new tblUser();
             UserList = service.GetAllUsers();
             WriteAdminInDb();
 
@@ -33,8 +33,22 @@ namespace Nedeljni_3.ViewModel
         #endregion
 
         #region Properties
-        private LoggedUser currentUser;
-        public LoggedUser CurrentUser
+        //private LoggedUser currentUser;
+        //public LoggedUser CurrentUser
+        //{
+        //    get
+        //    {
+        //        return currentUser;
+        //    }
+        //    set
+        //    {
+        //        currentUser = value;
+        //        OnPropertyChanged("CurrentUser");
+        //    }
+        //}
+
+        private tblUser currentUser;
+        public tblUser CurrentUser
         {
             get
             {
@@ -46,7 +60,7 @@ namespace Nedeljni_3.ViewModel
                 OnPropertyChanged("CurrentUser");
             }
         }
-        
+
 
         private List<tblUser> userList;
         public List<tblUser> UserList
@@ -95,7 +109,7 @@ namespace Nedeljni_3.ViewModel
                     MessageBox.Show("Invalid password. Try again");
                 }
                 else
-                {
+                {                    
                     User userview = new User(anUser);
                     login.Close();
                     userview.ShowDialog();
@@ -107,9 +121,9 @@ namespace Nedeljni_3.ViewModel
                 {
                     tblUser newUser = service.AddUser(currentUser.username, currentUser.password);
                     UserList = service.GetAllUsers();
-                    MessageBox.Show("Successful registration.", "Notification");
+                    MessageBox.Show("Successful registration.", "Notification");                    
                     EditUser edit = new EditUser(newUser);
-                    edit.ShowDialog();
+                    edit.ShowDialog();                    
                     User userview = new User(newUser);
                     login.Close();
                     userview.ShowDialog();
@@ -118,9 +132,6 @@ namespace Nedeljni_3.ViewModel
                 {
                     MessageBox.Show("The password must have minimum 5 characters.", "Notification");
                 }
-
-
-
             }
             
         }
@@ -144,6 +155,11 @@ namespace Nedeljni_3.ViewModel
         }
         #endregion
 
+        #region Method
+        /// <summary>
+        /// Method to write admin credentials into Db on starting application if the list of all users are empty
+        /// </summary>
+        /// <returns></returns>
         private tblUser WriteAdminInDb()
         {
             try
@@ -173,5 +189,6 @@ namespace Nedeljni_3.ViewModel
                 return null;
             }
         }
+        #endregion
     }
 }
