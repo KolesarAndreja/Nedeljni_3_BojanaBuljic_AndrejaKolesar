@@ -360,7 +360,7 @@ namespace Nedeljni_3.ViewModel
         {
             try
             {
-                AddRecipe addView = new AddRecipe();
+                AddRecipe addView = new AddRecipe(currentUser);
                 addView.ShowDialog();                
             }
             catch (Exception ex)
@@ -398,8 +398,8 @@ namespace Nedeljni_3.ViewModel
                 {
                     if(currentUser.userId == recipe.authorId)
                     {
-                        AddRecipe addRecipe = new AddRecipe(recipe,currentUser);
-                        addRecipe.ShowDialog();
+                        EditRecipe editRecipe = new EditRecipe(currentUser,recipe);
+                        editRecipe.ShowDialog();
                     }
                     else
                     {
@@ -408,9 +408,9 @@ namespace Nedeljni_3.ViewModel
                 }
                 //admin can edit all recipes
                 else
-                {                    
-                    AddRecipe addRecipe = new AddRecipe(recipe,currentUser);
-                    addRecipe.ShowDialog();
+                {
+                    EditRecipe editRecipe = new EditRecipe(currentUser, recipe);
+                    editRecipe.ShowDialog();
                 }
 
 
@@ -435,7 +435,7 @@ namespace Nedeljni_3.ViewModel
             {
                 if (_delete == null)
                 {
-                    _delete = new Command.RelayCommand(param => DeleteExecute(), param => CanDeleteExecute());
+                    _delete = new RelayCommand(param => DeleteExecute(), param => CanDeleteExecute());
 
                 }
                 return _delete;
@@ -451,7 +451,8 @@ namespace Nedeljni_3.ViewModel
                 service.DeleteRecipe(recipe);
                 IsDeleted = true;
                 MessageBox.Show("Recipe is deleted.", "Notification", MessageBoxButton.OK);
-                RecipeList = service.GetAllRecipes();                
+                RecipeList = service.GetAllRecipes();
+                
             }
         }
         private bool CanDeleteExecute()

@@ -494,6 +494,35 @@ namespace Nedeljni_3.Service
         }
         #endregion
 
+        /// <summary>
+        /// This method deletes ingredient.
+        /// </summary>
+        /// <param name="ingredient">Ingredient to be deleted.</param>
+        public bool DeleteIngredient(tblIngredient ingredient)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    tblIngredient ingredientToDelete = context.tblIngredients.Where(x => x.ingridientId == ingredient.ingridientId).FirstOrDefault();
+                    context.tblIngredients.Remove(ingredientToDelete);
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return false;
+            }
+        }
+
+        #region get selected recipe
+        /// <summary>
+        /// Method to show selected Recipe based on id
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <returns></returns>
         public tblRecipe GetSelectedRecipe(int recipeId)
         {
             try
@@ -509,7 +538,7 @@ namespace Nedeljni_3.Service
                 Debug.WriteLine("Exception" + ex.Message.ToString());
                 return null;
             }
-
         }
+        #endregion
     }
 }
