@@ -10,7 +10,7 @@
         Width="450">
     <Grid>
         <Button Content="Close"
-                Command="{Binding logOut, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding logOut}"
                 HorizontalAlignment="Left"
                 Height="25"
                 Margin="230,10,0,0"
@@ -68,8 +68,7 @@
                  Width="195"
                  RenderTransformOrigin="0.718,-1" />
         <Button Content="Save"
-                Command="{Binding save, UpdateSourceTrigger=PropertyChanged}"
-                CommandParameter="{Binding ElementName=passwordBox}"
+                Command="{Binding save}"                
                 HorizontalAlignment="Left"
                 Height="25"
                 Margin="170,660,0,0"

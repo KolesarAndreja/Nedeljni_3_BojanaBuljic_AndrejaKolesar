@@ -12,11 +12,13 @@ namespace Nedeljni_3.ViewModel
         EditUser view;
         Service.Service service = new Service.Service();
 
+        #region Constructor
         public EditUserViewModel(EditUser view, tblUser user)
         {
             this.view = view;
             User = user;
         }
+        #endregion
 
         #region Properties
         private tblUser user;

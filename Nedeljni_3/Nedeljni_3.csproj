@@ -101,10 +101,10 @@
     <Compile Include="Service\Service.cs" />
     <Compile Include="Validation\ValidationClass.cs" />
     <Compile Include="ViewModel\AddRecipeViewModel.cs" />
-    <Compile Include="ViewModel\AdminViewModel.cs" />
     <Compile Include="ViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\ShoppingListViewModel.cs" />
+    <Compile Include="ViewModel\ShowRecipeViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddRecipe.xaml.cs">
@@ -118,6 +118,9 @@
     </Compile>
     <Compile Include="View\ShoppingList.xaml.cs">
       <DependentUpon>ShoppingList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ShowRecipe.xaml.cs">
+      <DependentUpon>ShowRecipe.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User.xaml.cs">
       <DependentUpon>User.xaml</DependentUpon>
@@ -148,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ShoppingList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ShowRecipe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,7 +197,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

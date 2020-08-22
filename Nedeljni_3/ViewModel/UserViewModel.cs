@@ -33,7 +33,7 @@ namespace Nedeljni_3.ViewModel
         }
 
         private List<tblRecipe> _recipeList;
-        public List<tblRecipe> recipeList
+        public List<tblRecipe> RecipeList
         {
             get
             {
@@ -42,7 +42,7 @@ namespace Nedeljni_3.ViewModel
             set
             {
                 _recipeList = value;
-                OnPropertyChanged("recipeList");
+                OnPropertyChanged("RecipeList");
             }
         }
 
@@ -59,6 +59,13 @@ namespace Nedeljni_3.ViewModel
                 OnPropertyChanged("recipe");
             }
         }
+
+        private bool isDeleted = false;
+        public bool IsDeleted
+        {
+            get { return isDeleted; }
+            set { isDeleted = value; }
+        }
         #endregion
 
         #region constructor
@@ -66,7 +73,7 @@ namespace Nedeljni_3.ViewModel
         {
             userWindow = open;
             currentUser = u;
-            recipeList = service.GetAllRecipes();
+            RecipeList = service.GetAllRecipes();
 
         }
         #endregion
@@ -89,7 +96,7 @@ namespace Nedeljni_3.ViewModel
 
             try
             {
-                recipeList = service.SortByTitleAsc(recipeList);
+                RecipeList = service.SortByTitleAsc(RecipeList);
             }
             catch (Exception ex)
             {
@@ -120,7 +127,7 @@ namespace Nedeljni_3.ViewModel
 
             try
             {
-                recipeList = service.SortByTitleDesc(recipeList);
+                RecipeList = service.SortByTitleDesc(RecipeList);
             }
             catch (Exception ex)
             {
@@ -150,7 +157,7 @@ namespace Nedeljni_3.ViewModel
 
             try
             {
-                recipeList = service.SortByDateDesc(recipeList);
+                RecipeList = service.SortByDateDesc(RecipeList);
             }
             catch (Exception ex)
             {
@@ -180,7 +187,7 @@ namespace Nedeljni_3.ViewModel
 
             try
             {
-                recipeList = service.SortByDateAsc(recipeList);
+                RecipeList = service.SortByDateAsc(RecipeList);
             }
             catch (Exception ex)
             {
@@ -210,7 +217,7 @@ namespace Nedeljni_3.ViewModel
 
             try
             {
-                recipeList = service.SortByNumberOfIngredianceAsc(recipeList);
+                RecipeList = service.SortByNumberOfIngredianceAsc(RecipeList);
             }
             catch (Exception ex)
             {
@@ -240,7 +247,7 @@ namespace Nedeljni_3.ViewModel
 
             try
             {
-                recipeList = service.SortByNumberOfIngredianceDesc(recipeList);
+                RecipeList = service.SortByNumberOfIngredianceDesc(RecipeList);
             }
             catch (Exception ex)
             {
@@ -253,7 +260,7 @@ namespace Nedeljni_3.ViewModel
             return true;
         }
 
-        #endregion
+        #endregion      
 
         #region logout
         private ICommand _logOut;
@@ -290,6 +297,7 @@ namespace Nedeljni_3.ViewModel
         }
         #endregion
 
+
         #region Visibility
         private Visibility _visibilityAdmin;
         public Visibility visibilityAdmin
@@ -317,7 +325,7 @@ namespace Nedeljni_3.ViewModel
         {
             get
             {
-                if (currentUser.role == "author")
+                if (currentUser.role == "user")
                 {
                     return Visibility.Visible;
                 }
@@ -352,12 +360,8 @@ namespace Nedeljni_3.ViewModel
         {
             try
             {
-                //CreateMaintenance create = new CreateMaintenance();
-                //create.ShowDialog();
-                //if ((create.DataContext as CreateMaintenanceViewModel).isUpdated == true)
-                //{
-                //    recipeList = Service.Service.GetMaintenanceList();
-                //}
+                AddRecipe addView = new AddRecipe();
+                addView.ShowDialog();                
             }
             catch (Exception ex)
             {
@@ -378,13 +382,13 @@ namespace Nedeljni_3.ViewModel
             {
                 if (_edit == null)
                 {
-                    _edit = new RelayCommand(param => EditDateExecute(), param => CanEditExecute());
+                    _edit = new RelayCommand(param => EditExecute(), param => CanEditExecute());
                 }
                 return _edit;
             }
         }
 
-        private void EditDateExecute()
+        private void EditExecute()
         {
 
             try
@@ -399,13 +403,12 @@ namespace Nedeljni_3.ViewModel
                     }
                     else
                     {
-                        MessageBox.Show("Only author or admin can edit this recipe");
+                        MessageBox.Show("Only author or admin can edit this Recipe");
                     }
                 }
                 //admin can edit all recipes
                 else
-                {
-                    recipe.authorId = currentUser.userId;
+                {                    
                     AddRecipe addRecipe = new AddRecipe(recipe,currentUser);
                     addRecipe.ShowDialog();
                 }
@@ -446,7 +449,9 @@ namespace Nedeljni_3.ViewModel
             if (result == MessageBoxResult.Yes)
             {
                 service.DeleteRecipe(recipe);
-                //maintenanceList = Service.Service.GetMaintenanceList();
+                IsDeleted = true;
+                MessageBox.Show("Recipe is deleted.", "Notification", MessageBoxButton.OK);
+                RecipeList = service.GetAllRecipes();                
             }
         }
         private bool CanDeleteExecute()
@@ -454,6 +459,40 @@ namespace Nedeljni_3.ViewModel
             return true;
         }
         #endregion
-       
+
+        #region Read recipe
+        private ICommand _readRecipe;
+        public ICommand readRecipe
+        {
+            get
+            {
+                if (_readRecipe == null)
+                {
+                    _readRecipe = new RelayCommand(param => ReadRecipeExecute(), param => CanReadRecipeExecute());
+                }
+                return _readRecipe;
+            }
+        }
+
+        private void ReadRecipeExecute()
+        {
+            try
+            { 
+                recipe=service.GetSelectedRecipe(recipe.recipeId);
+                ShowRecipe showRecipe = new ShowRecipe(recipe);
+                showRecipe.ShowDialog();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanReadRecipeExecute()
+        {
+            return true;
+        }
+        #endregion
     }
 }
