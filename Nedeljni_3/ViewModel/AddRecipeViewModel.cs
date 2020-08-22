@@ -69,7 +69,7 @@ namespace Nedeljni_3.ViewModel
             set
             {
                 _recipe = value;
-                OnPropertyChanged("recipe");
+                OnPropertyChanged("Recipe");
             }
         }
 
