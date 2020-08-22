@@ -64,6 +64,55 @@ namespace Nedeljni_3.ViewModel
             get { return isDeleted; }
             set { isDeleted = value; }
         }
+
+        #endregion
+
+        #region search property
+        private List<string> _recipeType = new List<string> { "appetizer", "main course", "dessert" };
+        public List<string> recipeType
+        {
+
+            get
+            {
+                return _recipeType;
+            }
+            set
+            {
+                _recipeType = value;
+                OnPropertyChanged("recipeType");
+            }
+        }
+
+        private string _selectedType;
+        public string selectedType
+        {
+
+            get
+            {
+                return _selectedType;
+            }
+            set
+            {
+                _selectedType = value;
+                OnPropertyChanged("selectedType");
+            }
+        }
+
+
+        private string _selectedTitle;
+        public string selectedTitle
+        {
+
+            get
+            {
+                return _selectedTitle;
+            }
+            set
+            {
+                _selectedTitle = value;
+                OnPropertyChanged("selectedTitle");
+            }
+        }
         #endregion
 
         #region constructor
@@ -295,7 +344,6 @@ namespace Nedeljni_3.ViewModel
         }
         #endregion
 
-
         #region Visibility
         private Visibility _visibilityAdmin;
         public Visibility visibilityAdmin
@@ -358,7 +406,13 @@ namespace Nedeljni_3.ViewModel
             try
             {
                 AddRecipe addView = new AddRecipe(currentUser);
-                addView.ShowDialog();                
+                addView.ShowDialog();
+                if ((addView.DataContext as AddRecipeViewModel).isUpdated == true)
+                {
+                    RecipeList = service.GetAllRecipes();
+                    selectedTitle = null;
+                    selectedType = null;
+                }
             }
             catch (Exception ex)
             {
@@ -511,6 +565,47 @@ namespace Nedeljni_3.ViewModel
         }
 
         private bool CanReadRecipeExecute()
+        {
+            return true;
+        }
+        #endregion
+
+        #region search
+        private ICommand _search;
+        public ICommand search
+        {
+            get
+            {
+                if (_search == null)
+                {
+                    _search = new RelayCommand(param => SearchExecute(), param => CanSearchExecute());
+                }
+                return _search;
+            }
+        }
+
+        private void SearchExecute()
+        {
+            try
+            {
+                RecipeList = service.GetAllRecipes();
+
+                if (selectedTitle != null && selectedTitle.Length>=3)
+                {
+                    RecipeList = service.GetRecipesByTitle(RecipeList, selectedTitle);
+                }
+                if (selectedType != null)
+                {
+                    RecipeList = service.GetRecipesByType(RecipeList, selectedType);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanSearchExecute()
         {
             return true;
         }

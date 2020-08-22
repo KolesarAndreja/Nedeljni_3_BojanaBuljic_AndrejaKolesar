@@ -85,34 +85,34 @@ namespace Nedeljni_3.Service
             }
         }
 
-        ///// <summary>
-        ///// Method to edit the user
-        ///// </summary>
-        ///// <param name="userName"></param>    
-        ///// <param name="pass"></param>
-        ///// <returns>user</returns>
-        //public tblUser EditUser(tblUser user)
-        //{
-        //    try
-        //    {
-        //        using (RecipeKeeperEntities context = new RecipeKeeperEntities())
-        //        {
-        //            tblUser userToEdit = (from x in context.tblUsers where x.userId == user.userId select x).First();
-        //            userToEdit.fullname = user.fullname;
-        //            userToEdit.username = user.username;
-        //            userToEdit.password = user.password;
-        //            userToEdit.role = "user";
-        //            userToEdit.userId = user.userId;
-        //            context.SaveChanges();
-        //            return user;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
-        //        return null;
-        //    }
-        //}
+        /// <summary>
+        /// Method to edit the user
+        /// </summary>
+        /// <param name="userName"></param>    
+        /// <param name="pass"></param>
+        /// <returns>user</returns>
+        public tblUser EditUser(tblUser user)
+        {
+            try
+            {
+                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
+                {
+                    tblUser userToEdit = (from x in context.tblUsers where x.userId == user.userId select x).First();
+                    userToEdit.fullname = user.fullname;
+                    userToEdit.username = user.username;
+                    userToEdit.password = user.password;
+                    userToEdit.role = "user";
+                    userToEdit.userId = user.userId;
+                    context.SaveChanges();
+                    return user;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
 
         /// <summary>
         /// Gets user by forwarded username.
@@ -421,38 +421,7 @@ namespace Nedeljni_3.Service
         }
         #endregion       
 
-        #region add Recipe
-        /// <summary>
-        /// Method to add or edit the recipe
-        /// </summary>
-        /// <param name="userName"></param>    
-        /// <param name="pass"></param>
-        /// <returns>user</returns>
-        public tblUser EditUser(tblUser user)
-        {
-            try
-            {
-                using (RecipeKeeperEntities context = new RecipeKeeperEntities())
-                {
-                    tblUser userToEdit = (from x in context.tblUsers where x.userId == user.userId select x).First();
-                    userToEdit.fullname = user.fullname;
-                    userToEdit.username = user.username;                    
-                    userToEdit.password = user.password;
-                    userToEdit.role = "user";
-                    userToEdit.userId = user.userId;
-                    context.SaveChanges();
-                    return user;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
-                return null;
-            }
-        }
-        #endregion
-
-        #region add
+        #region add recipe
         /// <param name="recipe"></param>
         /// <returns></returns>
         public tblRecipe AddRecipe(tblRecipe recipe)
@@ -542,8 +511,6 @@ namespace Nedeljni_3.Service
             }
         }
         #endregion
-
-
 
         #region get selected recipe
         /// <summary>

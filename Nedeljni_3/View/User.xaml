@@ -54,7 +54,7 @@
                Grid.Row="3"
                Content="SORT BY:"
                HorizontalAlignment="Left"               
-               VerticalAlignment="Center" />        
+               VerticalAlignment="Center" FontWeight="Bold" />        
         <StackPanel Grid.Column="1"
                     Grid.Row="5"
                     Grid.RowSpan="6">            
@@ -152,11 +152,57 @@
                     Height="25" 
                     FontWeight="Bold" />
         </StackPanel>
-       
-        <Label Grid.Row="13"
-               Grid.Column="1"
-                Content="SEARCH BY:"
+        <StackPanel Grid.RowSpan="8"
+                    Grid.ColumnSpan="1"
+                Grid.Column="1"
+                Grid.Row="13">
+            <Label
+                Content="SEARCH:"
                HorizontalAlignment="Left"               
-               VerticalAlignment="Top" />
+               VerticalAlignment="Top" FontWeight="Bold" />
+              <Label
+                Content="title :"
+               HorizontalAlignment="Left"               
+               VerticalAlignment="Top" FontStyle="Italic" />
+            <TextBox 
+                    Text="{Binding selectedTitle, UpdateSourceTrigger=PropertyChanged}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5,0,5"
+                    Width="165"
+                    Height="25" />
+            <Label
+               Content="type :"
+               HorizontalAlignment="Left"               
+               VerticalAlignment="Top" FontStyle="Italic" />
+            <ComboBox 
+                    IsEditable="True"
+                    ItemsSource="{Binding recipeType, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding selectedType, UpdateSourceTrigger=PropertyChanged}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5,0,5"
+                    Width="165"
+                    Height="25" />
+            <Label></Label>
+            <Button Content="choose ingredients"
+                    Command="{Binding dateDesc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" FontStyle="Italic" />
+            <Button Content="SEARCH"
+                    Command="{Binding search, UpdateSourceTrigger=PropertyChanged}"   
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Background="DarkSlateGray"
+                    Foreground="White"
+                    Height="25" />
+            <Label></Label>
+        </StackPanel>
+
     </Grid>
 </Window>

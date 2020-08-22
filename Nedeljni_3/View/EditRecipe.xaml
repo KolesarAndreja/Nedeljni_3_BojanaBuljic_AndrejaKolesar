@@ -102,7 +102,7 @@
                  Width="195"/>
         <ComboBox HorizontalAlignment="Left"
                   x:Name="cmbMarital_Copy"
-                  IsEditable="True"
+                  IsEditable="False"
                   ItemsSource="{Binding recipeType, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding selectedType, UpdateSourceTrigger=PropertyChanged}"
                   Height="25"

@@ -82,8 +82,10 @@ namespace Nedeljni_3.ViewModel
                 OnPropertyChanged("author");
             }
         }
+
+        public bool isUpdated = false;
         #endregion
-       
+
 
         #region save
         private ICommand _save;
@@ -109,7 +111,9 @@ namespace Nedeljni_3.ViewModel
                     MessageBox.Show("Recipe has been added. Add ingredients for this recipe");
                     addRecipe.Close();                    
                     AddIngredients addIngredients = new AddIngredients(addedRecipe);                    
-                    addIngredients.ShowDialog();                
+                    addIngredients.ShowDialog();
+                    isUpdated = true;
+                
             }
             catch (Exception ex)
             {
