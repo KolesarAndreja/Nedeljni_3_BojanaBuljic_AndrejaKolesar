@@ -90,16 +90,24 @@ namespace Nedeljni_3.ViewModel
             if (registered)
             {
                 tblUser anUser = service.GetUserByUsernameAndPass(currentUser.username, currentUser.password);
-                if (PasswordHasher.Verify(CurrentUser.password,anUser.password))
+                if (anUser != null)
+                {
+                    if (PasswordHasher.Verify(CurrentUser.password, anUser.password))
+                    {
+                        MessageBox.Show("Invalid password. Try again");
+                    }
+                    else
+                    {
+                        User userview = new User(anUser);
+                        login.Close();
+                        userview.ShowDialog();
+                    }
+                }
+                else
                 {
                     MessageBox.Show("Invalid password. Try again");
                 }
-                else
-                {                    
-                    User userview = new User(anUser);
-                    login.Close();
-                    userview.ShowDialog();
-                }
+
             }
             else
             {
