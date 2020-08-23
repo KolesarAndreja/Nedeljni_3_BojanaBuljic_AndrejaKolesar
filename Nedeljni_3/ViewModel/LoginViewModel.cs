@@ -1,4 +1,5 @@
 ﻿using Nedeljni_3.Command;
+using Nedeljni_3.Helper;
 using Nedeljni_3.Model;
 using Nedeljni_3.Validation;
 using Nedeljni_3.View;
@@ -6,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,21 +31,7 @@ namespace Nedeljni_3.ViewModel
         }
         #endregion
 
-        #region Properties
-        //private LoggedUser currentUser;
-        //public LoggedUser CurrentUser
-        //{
-        //    get
-        //    {
-        //        return currentUser;
-        //    }
-        //    set
-        //    {
-        //        currentUser = value;
-        //        OnPropertyChanged("CurrentUser");
-        //    }
-        //}
-
+        #region Properties   
         private tblUser currentUser;
         public tblUser CurrentUser
         {
@@ -77,9 +62,10 @@ namespace Nedeljni_3.ViewModel
         }
         #endregion
 
-
-
         #region Commands
+        /// <summary>
+        /// Log in command
+        /// </summary>
         private ICommand logIn;
         public ICommand LogIn
         {
@@ -104,7 +90,7 @@ namespace Nedeljni_3.ViewModel
             if (registered)
             {
                 tblUser anUser = service.GetUserByUsernameAndPass(currentUser.username, currentUser.password);
-                if (anUser == null)
+                if (PasswordHasher.Verify(CurrentUser.password,anUser.password))
                 {
                     MessageBox.Show("Invalid password. Try again");
                 }
@@ -171,7 +157,7 @@ namespace Nedeljni_3.ViewModel
                         tblUser admin = new tblUser
                         {
                             username = "Admin",
-                            password = "Admin123",
+                            password = PasswordHasher.Hash("Admin123"),
                             fullname = "Administrator",
                             role = "admin"
                         };

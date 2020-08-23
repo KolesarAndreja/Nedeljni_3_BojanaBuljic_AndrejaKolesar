@@ -33,7 +33,7 @@
         <Label Content="Username:"
                Grid.Column="1"
                Grid.Row="3" />
-        <Label Content="Password:"
+        <Label Content="Hashed Password:"
                Grid.Column="1"
                Grid.Row="5" />        
         <TextBox Text="{Binding User.fullname, UpdateSourceTrigger=PropertyChanged}"
@@ -49,7 +49,7 @@
                  Grid.Row="5"
                  Width="200"
                  Name="txtUserPassword"
-                 />
+                 IsEnabled="False"/>
         <Button Grid.Column="3"
                 Grid.Row="7"
                 Content="Save"

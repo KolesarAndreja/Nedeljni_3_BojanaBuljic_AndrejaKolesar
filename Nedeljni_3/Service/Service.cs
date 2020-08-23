@@ -1,4 +1,5 @@
-﻿using Nedeljni_3.Model;
+﻿using Nedeljni_3.Helper;
+using Nedeljni_3.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -71,7 +72,7 @@ namespace Nedeljni_3.Service
                     tblUser user = new tblUser();
                     user.fullname = userName;
                     user.username = userName;
-                    user.password = pass;
+                    user.password = PasswordHasher.Hash(pass);
                     user.role = "user";
                     context.tblUsers.Add(user);
                     context.SaveChanges();
@@ -100,7 +101,7 @@ namespace Nedeljni_3.Service
                     tblUser userToEdit = (from x in context.tblUsers where x.userId == user.userId select x).First();
                     userToEdit.fullname = user.fullname;
                     userToEdit.username = user.username;
-                    userToEdit.password = user.password;
+                    userToEdit.password = PasswordHasher.Hash(user.password);
                     userToEdit.role = "user";
                     userToEdit.userId = user.userId;
                     context.SaveChanges();
