@@ -4,13 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4913d6dbbca24e738daa7152f1995c88" Name="Diagram1">
-        <EntityTypeShape EntityType="dbRecipeKeeperModel.tblIngredient" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbRecipeKeeperModel.tblRecipe" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbRecipeKeeperModel.tblUser" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbRecipeKeeperModel.vwRecipe" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblIngred__recip__72C60C4A" ManuallyRouted="false" />
-        <AssociationConnector Association="dbRecipeKeeperModel.FK__tblRecipe__autho__6EF57B66" ManuallyRouted="false" />
+      <Diagram DiagramId="d7fdce5db8ad402dbc1dba1d480ded8b" Name="Diagram1">
+        <EntityTypeShape EntityType="RecipeKeeperModel.tblIngredient" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecipeKeeperModel.tblRecipe" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecipeKeeperModel.tblShoppingList" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecipeKeeperModel.tblUser" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecipeKeeperModel.vwRecipe" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecipeKeeperModel.vwShoppingList" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="RecipeKeeperModel.FK__tblIngred__recip__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="RecipeKeeperModel.FK__tblShoppi__ingri__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="RecipeKeeperModel.FK__tblRecipe__autho__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="RecipeKeeperModel.FK__tblShoppi__userI__3F466844" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

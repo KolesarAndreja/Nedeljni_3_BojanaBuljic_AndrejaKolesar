@@ -2,30 +2,31 @@
 using Nedeljni_3.Model;
 using Nedeljni_3.View;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Nedeljni_3.ViewModel
 {
-    class AddRecipeViewModel:ViewModelBase
+    class EditRecipeViewModel:ViewModelBase
     {
-        AddRecipe addRecipe;
+        EditRecipe editView;
         Service.Service service = new Service.Service();
 
-        #region constructor
-        public AddRecipeViewModel(AddRecipe open, tblUser user)
+        #region Constructor
+
+        public EditRecipeViewModel(EditRecipe editView, tblUser user, tblRecipe recipeToEdit)
         {
-            addRecipe = open;
-            recipe = new tblRecipe();
+            this.editView = editView;
+            recipe = recipeToEdit;
             author = user;            
-            recipe.authorId = user.userId; 
+            recipe.authorId = recipeToEdit.authorId;
+            
         }
         #endregion
 
         #region property
-        private List<string> _recipeType= new List<string> { "appetizer", "main course", "dessert" };
+        private List<string> _recipeType = new List<string> { "appetizer", "main course", "dessert" };
         public List<string> recipeType
         {
 
@@ -82,10 +83,7 @@ namespace Nedeljni_3.ViewModel
                 OnPropertyChanged("author");
             }
         }
-
-        public bool isUpdated = false;
         #endregion
-
 
         #region save
         private ICommand _save;
@@ -95,7 +93,7 @@ namespace Nedeljni_3.ViewModel
             {
                 if (_save == null)
                 {
-                    _save = new RelayCommand(param=>SaveExecute(), param=>CanSaveExecute());
+                    _save = new RelayCommand(param => SaveExecute(), param => CanSaveExecute());
                 }
                 return _save;
             }
@@ -105,15 +103,22 @@ namespace Nedeljni_3.ViewModel
         {
             try
             {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to save edits to the recipe?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
                     recipe.type = selectedType;
+                    recipe.authorId = author.userId;
                     service.AddRecipe(recipe);
-                    tblRecipe addedRecipe = service.AddRecipe(recipe);
-                    MessageBox.Show("Recipe has been added. Add ingredients for this recipe");
-                    addRecipe.Close();                    
-                    AddIngredients addIngredients = new AddIngredients(addedRecipe);                    
-                    addIngredients.ShowDialog();
-                    isUpdated = true;
-                
+                    tblRecipe editedRecipe = service.AddRecipe(recipe);                    
+                    MessageBox.Show("Recipe has been edited.");
+                    editView.Close();
+                    MessageBoxResult result2 = MessageBox.Show("Do you want to change ingredients too?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result2 == MessageBoxResult.Yes)
+                    {
+                        EditIngredients editIngredients = new EditIngredients(editedRecipe);
+                        editIngredients.ShowDialog();
+                    }
+                }                
             }
             catch (Exception ex)
             {
@@ -123,12 +128,16 @@ namespace Nedeljni_3.ViewModel
 
         private bool CanSaveExecute()
         {
-            if(selectedType!=null && !String.IsNullOrEmpty(recipe.description) && !String.IsNullOrEmpty(recipe.title) && recipe.numberOfPersons>0)
+            if (selectedType != null)
+            {
                 return true;
+            }
             else
             {
                 return false;
+
             }
+                      
         }
         #endregion
 
@@ -150,7 +159,7 @@ namespace Nedeljni_3.ViewModel
         {
             try
             {
-                addRecipe.Close();
+                editView.Close();
 
             }
             catch (Exception ex)

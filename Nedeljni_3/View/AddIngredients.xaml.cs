@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Nedeljni_3.Model;
+using Nedeljni_3.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,13 +17,14 @@ using System.Windows.Shapes;
 namespace Nedeljni_3.View
 {
     /// <summary>
-    /// Interaction logic for Admin.xaml
+    /// Interaction logic for AddIngredients.xaml
     /// </summary>
-    public partial class Admin : Window
+    public partial class AddIngredients : Window
     {
-        public Admin()
+        public AddIngredients(tblRecipe recipe)
         {
             InitializeComponent();
+            this.DataContext = new AddIngredientsViewModel(this, recipe);
         }
     }
 }

@@ -5,8 +5,213 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nedeljni_3.View"
         mc:Ignorable="d"
-        Title="User" Height="450" Width="800">
+        Title="User"
+        SizeToContent="WidthAndHeight">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <Button Grid.Column="5"
+                Grid.Row="1"
+                Content="Log out"
+                Command="{Binding logOut}"
+                HorizontalAlignment="Right"
+                Height="25"                
+                VerticalAlignment="Top"
+                Width="125" />        
+        <Button Grid.Column="1"
+                Grid.Row="1"
+                Content="Add Recipe"
+                Command="{Binding addRecipe}"
+                HorizontalAlignment="Center"              
+                VerticalAlignment="Top"
+                Width="125"
+                Height="25" />
+        <Label Grid.Column="1"
+               Grid.Row="3"
+               Content="SORT BY:"
+               HorizontalAlignment="Left"               
+               VerticalAlignment="Center" FontWeight="Bold" />        
+        <StackPanel Grid.Column="1"
+                    Grid.Row="5"
+                    Grid.RowSpan="6">            
+            <Button Content="Title (ASC)"
+                    Command="{Binding titleAsc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Title (DESC)"
+                    Command="{Binding titleDesc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Date (ASC)"
+                    Command="{Binding dateAsc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Date (DESC)"
+                    Command="{Binding dateDesc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Number of ingredients (ASC)"
+                    Command="{Binding numberAsc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+            <Button Content="Number of ingredients (DESC)"
+                    Command="{Binding numberDesc}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" />
+        </StackPanel>
+        <ListView x:Name="RecipesListView" ItemsSource="{Binding RecipeList}"
+                  SelectedItem="{Binding recipe}"
+                  Grid.Column="3"
+                  Grid.Row="5"
+                  Grid.RowSpan="6"
+                  BorderBrush="Black"
+                  Foreground="Black"
+                  FontWeight="Bold">
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">                    
+                    <GridViewColumn Header="Title" Width="100"
+                                    DisplayMemberBinding="{Binding title}"/>
+                    <GridViewColumn Header="Type" Width="100"
+                                    DisplayMemberBinding="{Binding type}"/>
+                    <GridViewColumn Header="Number of persons" Width="120"
+                                    DisplayMemberBinding="{Binding numberOfPersons}"/>                    
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.RowSpan="4"
+                Grid.Column="5"
+                Grid.Row="5">
+            <Button Name="btnEditRecipe"
+                    Content="Edit"
+                    Command="{Binding edit, UpdateSourceTrigger=PropertyChanged}"   
+                    Visibility="{Binding anyRole, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="4"
+                    Height="25" 
+                    FontWeight="Bold" />
+            <Button Name="btnDelete"               
+                    Content="Delete"                                
+                    Visibility="{Binding visibilityAdmin, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding delete}"
+                    Margin="4"
+                    Height="25" 
+                    FontWeight="Bold" />
+            <Button Name="btnRead"
+                    Visibility="{Binding anyRole, UpdateSourceTrigger=PropertyChanged}"
+                    Content="Read Recipe"   
+                    Command="{Binding readRecipe}"
+                    Margin="4"
+                    Height="25" 
+                    FontWeight="Bold" />
+            <Button Name="btnCalculate"
+                    Content="Calculate quantity"
+                    Visibility="{Binding visibilityUser, UpdateSourceTrigger=PropertyChanged}"
+                                Command="{Binding calculate}"
+                                Margin="4"
+                    Height="25" 
+                    FontWeight="Bold" />
+        </StackPanel>
+        <StackPanel Grid.RowSpan="8"
+                    Grid.ColumnSpan="1"
+                Grid.Column="1"
+                Grid.Row="13">
+            <Label
+                Content="SEARCH:"
+               HorizontalAlignment="Left"               
+               VerticalAlignment="Top" FontWeight="Bold" />
+              <Label
+                Content="title :"
+               HorizontalAlignment="Left"               
+               VerticalAlignment="Top" FontStyle="Italic" />
+            <TextBox 
+                    Text="{Binding selectedTitle, UpdateSourceTrigger=PropertyChanged}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5,0,5"
+                    Width="165"
+                    Height="25" />
+            <Label
+               Content="type :"
+               HorizontalAlignment="Left"               
+               VerticalAlignment="Top" FontStyle="Italic" />
+            <ComboBox 
+                    IsEditable="True"
+                    ItemsSource="{Binding recipeType, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding selectedType, UpdateSourceTrigger=PropertyChanged}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5,0,5"
+                    Width="165"
+                    Height="25" />
+            <Label></Label>
+            <Button Content="choose ingredients"
+                    Command="{Binding chooseIngredients}"
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Height="25" FontStyle="Italic" />
+            <Button Content="SEARCH"
+                    Command="{Binding search, UpdateSourceTrigger=PropertyChanged}"   
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Background="DarkSlateGray"
+                    Foreground="White"
+                    Height="25" />
+            <Button Content="CLEAR SEARCH"
+                    Command="{Binding clearSearch, UpdateSourceTrigger=PropertyChanged}"   
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Background="DarkSlateGray"
+                    Foreground="White"
+                    Height="25" />
+            <Label></Label>
+        </StackPanel>
+
     </Grid>
 </Window>
