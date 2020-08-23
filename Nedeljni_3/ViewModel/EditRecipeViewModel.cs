@@ -37,7 +37,7 @@ namespace Nedeljni_3.ViewModel
             set
             {
                 _recipeType = value;
-                OnPropertyChanged("recipeType");
+                OnPropertyChanged("allIngredients");
             }
         }
 
@@ -52,7 +52,7 @@ namespace Nedeljni_3.ViewModel
             set
             {
                 _selectedType = value;
-                OnPropertyChanged("selectedType");
+                OnPropertyChanged("number");
             }
         }
 

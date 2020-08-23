@@ -80,7 +80,7 @@ namespace Nedeljni_3.ViewModel
             set
             {
                 _recipeType = value;
-                OnPropertyChanged("recipeType");
+                OnPropertyChanged("allIngredients");
             }
         }
 
@@ -95,7 +95,7 @@ namespace Nedeljni_3.ViewModel
             set
             {
                 _selectedType = value;
-                OnPropertyChanged("selectedType");
+                OnPropertyChanged("number");
             }
         }
 
@@ -701,8 +701,16 @@ namespace Nedeljni_3.ViewModel
         {
             try
             {
-                //CalculateQuantity calc = new CalculateQuantity(recipe);
-                //calc.ShowDialog();
+
+                if (recipe != null)
+                {
+                    CalculateQuantity calc = new CalculateQuantity(recipe);
+                    calc.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Please select the recipe first.");
+                }
             }
             catch (Exception ex)
             {

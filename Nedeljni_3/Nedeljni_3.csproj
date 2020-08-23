@@ -80,6 +80,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Quantity.cs" />
     <Compile Include="Model\tblIngredient.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

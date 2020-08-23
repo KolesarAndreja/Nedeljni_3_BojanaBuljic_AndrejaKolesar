@@ -5,8 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nedeljni_3.View"
         mc:Ignorable="d"
-        Title="CalculateQuantity" Height="450" Width="800">
+        Title="CalculateQuantity" SizeToContent="WidthAndHeight">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="5"
+                Grid.Row="1"
+                HorizontalAlignment="Right"
+                Content="Close"
+                Width="90"                
+                Command="{Binding Close}"/>
+        <Label Grid.Column="1"
+               Grid.Row="3"
+               Content="Enter number of persons:"/>
+        <TextBox Grid.Column="3"
+                   Grid.Row="3"
+                   Width="50"
+                   Text="{Binding number}"
+                   TextWrapping="Wrap"/>
+        <Button Grid.Column="5"
+                   Grid.Row="3" 
+                Content="Calculate"             
+                Command="{Binding calculate}"></Button>
+        <Label Content="List of ingredients:" Grid.Column="1" Grid.Row="5" Margin="0,18,0,0" FontStyle="Italic"/>
+        <Grid Grid.Column="1" 
+              Grid.Row="7">
+            <DataGrid ItemsSource="{Binding list,UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding quantityObject, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="True" 
+                HeadersVisibility="Column"  
+                AutoGenerateColumns="False" Margin="0,0,75,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name}"/>
+                    <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
     </Grid>
 </Window>
