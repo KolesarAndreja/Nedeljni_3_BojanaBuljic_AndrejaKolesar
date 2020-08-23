@@ -41,13 +41,12 @@
                 HorizontalAlignment="Left"
                 Width="88"/>
             <Label></Label>
-            
-        <Button 
+
+            <Button 
                 Command="{Binding Cancel}" 
                 Content="Cancel" 
                 HorizontalAlignment="Right"
                 Width="91"/>
         </StackPanel>
-       
     </Grid>
 </Window>

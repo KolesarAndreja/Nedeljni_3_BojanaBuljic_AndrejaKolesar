@@ -53,7 +53,6 @@ namespace Nedeljni_3.ViewModel
                 OnPropertyChanged("IngredientList");
             }
         }
-
         private string ingredientSingle;
         public string IngredientSingle
         {
@@ -177,39 +176,6 @@ namespace Nedeljni_3.ViewModel
         }
         #endregion
 
-        #region delete
-        private ICommand removeIngredient;
-        public ICommand RemoveIngredient
-        {
-            get
-            {
-                if (removeIngredient == null)
-                {
-                    removeIngredient = new RelayCommand(param => RemoveIngredientExecute(), param => CanRemoveIngredientExecute());
-                }
-                return removeIngredient;
-            }
-        }
-        public void RemoveIngredientExecute()
-        {
-            try
-            {
-                if (IngredientSingle != null)
-                {
-                    //delete ingredient
-                    IngredientList.Remove(IngredientSingle);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        public bool CanRemoveIngredientExecute()
-        {
-            return true;
-        }
-        #endregion
+    
     }
 }
