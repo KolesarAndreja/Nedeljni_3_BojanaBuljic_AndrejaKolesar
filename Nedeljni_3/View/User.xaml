@@ -147,7 +147,7 @@
             <Button Name="btnCalculate"
                     Content="Calculate quantity"
                     Visibility="{Binding visibilityUser, UpdateSourceTrigger=PropertyChanged}"
-                                Command="{Binding CalculateQuantity}"
+                                Command="{Binding calculate}"
                                 Margin="4"
                     Height="25" 
                     FontWeight="Bold" />
@@ -194,6 +194,15 @@
                     Height="25" FontStyle="Italic" />
             <Button Content="SEARCH"
                     Command="{Binding search, UpdateSourceTrigger=PropertyChanged}"   
+                    HorizontalAlignment="Left"                
+                    VerticalAlignment="Center"
+                    Margin="5,5"
+                    Width="165"
+                    Background="DarkSlateGray"
+                    Foreground="White"
+                    Height="25" />
+            <Button Content="CLEAR SEARCH"
+                    Command="{Binding clearSearch, UpdateSourceTrigger=PropertyChanged}"   
                     HorizontalAlignment="Left"                
                     VerticalAlignment="Center"
                     Margin="5,5"

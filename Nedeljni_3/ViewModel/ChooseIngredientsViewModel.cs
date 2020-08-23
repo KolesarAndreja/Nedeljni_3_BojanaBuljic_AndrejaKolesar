@@ -12,7 +12,7 @@ namespace Nedeljni_3.ViewModel
 {
     class ChooseIngredientsViewModel:ViewModelBase
     {
-        public static List<string> selectedIng;
+        public static List<string> staticSelectedIngredients;
 
         ChooseIngredients chooseView;
         Service.Service service = new Service.Service();
@@ -25,6 +25,7 @@ namespace Nedeljni_3.ViewModel
         }
         #endregion
 
+        #region property
         private string ingredientName;
         public string IngredientName
         {
@@ -53,8 +54,8 @@ namespace Nedeljni_3.ViewModel
             }
         }
 
-        private List<string> ingredientSingle;
-        public List<string> IngredientSingle
+        private string ingredientSingle;
+        public string IngredientSingle
         {
             get
             {
@@ -66,8 +67,9 @@ namespace Nedeljni_3.ViewModel
                 OnPropertyChanged("IngredientSingle");
             }
         }
+        #endregion
 
-
+        #region add one
         private ICommand addIngredient;
         public ICommand AddIngredient
         {
@@ -80,36 +82,8 @@ namespace Nedeljni_3.ViewModel
                 return addIngredient;
             }
         }
-
-        private ICommand cancel;
-        public ICommand Cancel
-        {
-            get
-            {
-                if (cancel == null)
-                {
-                    cancel = new RelayCommand(param => CancelRecipeExecute(), param => CanCancelRecipeExecute());
-                }
-                return cancel;
-            }
-        }
-
-        private ICommand save;
-        public ICommand Save
-        {
-            get
-            {
-                if (save == null)
-                {
-                    save = new RelayCommand(param => SaveRecipeExecute(), param => CanSaveRecipeExecute());
-                }
-                return save;
-            }
-        }
-
-     
         /// <summary>
-        /// This method invokes method for adding ingredient to recipe.
+        /// This method invokes method for selecting ingredient.
         /// </summary>
         public void AddIngredientExecute()
         {
@@ -128,6 +102,54 @@ namespace Nedeljni_3.ViewModel
         public bool CanAddIngredientExecute()
         {
             return true;
+        }
+        #endregion
+
+        #region save
+        private ICommand save;
+        public ICommand Save
+        {
+            get
+            {
+                if (save == null)
+                {
+                    save = new RelayCommand(param => SaveRecipeExecute(), param => CanSaveRecipeExecute());
+                }
+                return save;
+            }
+        }
+        public void SaveRecipeExecute()
+        {
+            if (IngredientList == null || IngredientList.Count == 0)
+            {
+                MessageBox.Show("Please add ingredients.", "Notification");
+            }
+            else
+            {
+                staticSelectedIngredients = IngredientList;
+                MessageBox.Show("Ingredients are added.", "Notification", MessageBoxButton.OK);
+                chooseView.Close();
+            }
+        }
+
+        public bool CanSaveRecipeExecute()
+        {
+            return true;
+        }
+        #endregion
+
+        #region cancel
+        private ICommand cancel;
+        public ICommand Cancel
+        {
+            get
+            {
+                if (cancel == null)
+                {
+                    cancel = new RelayCommand(param => CancelRecipeExecute(), param => CanCancelRecipeExecute());
+                }
+                return cancel;
+            }
         }
         /// <summary>
         /// This method invokes method for canceling ingredint add.
@@ -153,24 +175,41 @@ namespace Nedeljni_3.ViewModel
         {
             return true;
         }
+        #endregion
 
-        public void SaveRecipeExecute()
+        #region delete
+        private ICommand removeIngredient;
+        public ICommand RemoveIngredient
         {
-            if (IngredientList == null || IngredientList.Count == 0)
+            get
             {
-                MessageBox.Show("Please add ingredients.", "Notification");
+                if (removeIngredient == null)
+                {
+                    removeIngredient = new RelayCommand(param => RemoveIngredientExecute(), param => CanRemoveIngredientExecute());
+                }
+                return removeIngredient;
             }
-            else
+        }
+        public void RemoveIngredientExecute()
+        {
+            try
             {
-                    selectedIng = IngredientList;
-                    MessageBox.Show("Ingredients are added.", "Notification", MessageBoxButton.OK);
-                    chooseView.Close();
+                if (IngredientSingle != null)
+                {
+                    //delete ingredient
+                    IngredientList.Remove(IngredientSingle);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 
-        public bool CanSaveRecipeExecute()
+        public bool CanRemoveIngredientExecute()
         {
             return true;
         }
+        #endregion
     }
 }

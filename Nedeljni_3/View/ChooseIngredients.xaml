@@ -35,20 +35,15 @@
                 Content="Select" 
                 Command="{Binding AddIngredient}" Width="41"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="5">
-            <Label Content="Selected ingredients:" Margin="0,18,0,0"/>
-
-
-        </StackPanel>
-        
         <StackPanel Grid.Column="1" Grid.Row="9" Orientation="Horizontal">
             <Button
                 Command="{Binding Save}" 
                 Content="Save" 
                 HorizontalAlignment="Left"
                 Width="88"/>
-        <Button Grid.Column="1" 
-                Grid.Row="9" 
+            <Label></Label>
+            
+        <Button 
                 Command="{Binding Cancel}" 
                 Content="Cancel" 
                 HorizontalAlignment="Right"

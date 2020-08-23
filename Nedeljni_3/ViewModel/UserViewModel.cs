@@ -14,6 +14,7 @@ namespace Nedeljni_3.ViewModel
 
         public User userWindow;
         Service.Service service = new Service.Service();
+        
         #region property
         private tblUser _currentUser;
         public tblUser currentUser
@@ -588,9 +589,6 @@ namespace Nedeljni_3.ViewModel
         {
             try
             {
-                RecipeList = service.GetAllRecipes();
-                ChooseIngredientsViewModel.selectedIng = null;
-
                 if (selectedTitle != null && selectedTitle.Length>=3)
                 {
                     RecipeList = service.GetRecipesByTitle(RecipeList, selectedTitle);
@@ -599,9 +597,9 @@ namespace Nedeljni_3.ViewModel
                 {
                     RecipeList = service.GetRecipesByType(RecipeList, selectedType);
                 }
-                if (ChooseIngredientsViewModel.selectedIng != null)
+                if (ChooseIngredientsViewModel.staticSelectedIngredients != null)
                 {
-                    RecipeList = service.GetRecipesByIngredients(RecipeList,ChooseIngredientsViewModel.selectedIng);
+                    RecipeList = service.GetRecipesByIngredients(RecipeList, ChooseIngredientsViewModel.staticSelectedIngredients);
                 }
             }
             catch (Exception ex)
@@ -615,6 +613,43 @@ namespace Nedeljni_3.ViewModel
             return true;
         }
         #endregion
+
+
+        #region clear search
+        private ICommand _clearSearch;
+        public ICommand clearSearch
+        {
+            get
+            {
+                if (_clearSearch == null)
+                {
+                    _clearSearch = new RelayCommand(param => ClearSearchExecute(), param => CanClearSearchExecute());
+                }
+                return _clearSearch;
+            }
+        }
+
+        private void ClearSearchExecute()
+        {
+            try
+            {
+                RecipeList = service.GetAllRecipes();
+                ChooseIngredientsViewModel.staticSelectedIngredients = null;
+                selectedTitle = null;
+                selectedType = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanClearSearchExecute()
+        {
+            return true;
+        }
+        #endregion
+
 
         #region choose ingredients
         private ICommand _chooseIngredients;
@@ -644,6 +679,38 @@ namespace Nedeljni_3.ViewModel
         }
 
         private bool CanChooseIngredientsExecute()
+        {
+            return true;
+        }
+        #endregion
+
+        #region calculate
+        private ICommand _calculate;
+        public ICommand calculate
+        {
+            get
+            {
+                if (_calculate == null)
+                {
+                    _calculate = new RelayCommand(param => CalculateExecute(), param => CanCalculateExecute());
+                }
+                return _calculate;
+            }
+        }
+        private void CalculateExecute()
+        {
+            try
+            {
+                //CalculateQuantity calc = new CalculateQuantity(recipe);
+                //calc.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanCalculateExecute()
         {
             return true;
         }
