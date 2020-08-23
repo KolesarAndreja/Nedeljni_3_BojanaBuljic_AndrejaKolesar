@@ -102,6 +102,7 @@
     <Compile Include="Validation\ValidationClass.cs" />
     <Compile Include="ViewModel\AddIngredientsViewModel.cs" />
     <Compile Include="ViewModel\AddRecipeViewModel.cs" />
+    <Compile Include="ViewModel\ChooseIngredientsViewModel.cs" />
     <Compile Include="ViewModel\EditIngredientsViewModel.cs" />
     <Compile Include="ViewModel\EditRecipeViewModel.cs" />
     <Compile Include="ViewModel\EditUserViewModel.cs" />
@@ -115,6 +116,9 @@
     </Compile>
     <Compile Include="View\AddRecipe.xaml.cs">
       <DependentUpon>AddRecipe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ChooseIngredients.xaml.cs">
+      <DependentUpon>ChooseIngredients.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditIngredients.xaml.cs">
       <DependentUpon>EditIngredients.xaml</DependentUpon>
@@ -155,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddRecipe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ChooseIngredients.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

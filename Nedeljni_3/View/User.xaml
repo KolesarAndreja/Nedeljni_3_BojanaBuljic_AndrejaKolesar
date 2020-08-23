@@ -186,7 +186,7 @@
                     Height="25" />
             <Label></Label>
             <Button Content="choose ingredients"
-                    Command="{Binding dateDesc}"
+                    Command="{Binding chooseIngredients}"
                     HorizontalAlignment="Left"                
                     VerticalAlignment="Center"
                     Margin="5,5"

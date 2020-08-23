@@ -589,6 +589,7 @@ namespace Nedeljni_3.ViewModel
             try
             {
                 RecipeList = service.GetAllRecipes();
+                ChooseIngredientsViewModel.selectedIng = null;
 
                 if (selectedTitle != null && selectedTitle.Length>=3)
                 {
@@ -598,6 +599,10 @@ namespace Nedeljni_3.ViewModel
                 {
                     RecipeList = service.GetRecipesByType(RecipeList, selectedType);
                 }
+                if (ChooseIngredientsViewModel.selectedIng != null)
+                {
+                    RecipeList = service.GetRecipesByIngredients(RecipeList,ChooseIngredientsViewModel.selectedIng);
+                }
             }
             catch (Exception ex)
             {
@@ -606,6 +611,39 @@ namespace Nedeljni_3.ViewModel
         }
 
         private bool CanSearchExecute()
+        {
+            return true;
+        }
+        #endregion
+
+        #region choose ingredients
+        private ICommand _chooseIngredients;
+        public ICommand chooseIngredients
+        {
+            get
+            {
+                if (_chooseIngredients == null)
+                {
+                    _chooseIngredients= new RelayCommand(param => ChooseIngredientsExecute(), param => CanChooseIngredientsExecute());
+                }
+                return _chooseIngredients;
+            }
+        }
+
+        private void ChooseIngredientsExecute()
+        {
+            try
+            {
+                ChooseIngredients ch = new ChooseIngredients();
+                ch.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanChooseIngredientsExecute()
         {
             return true;
         }
